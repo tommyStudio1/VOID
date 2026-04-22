@@ -376,7 +376,11 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
     z-index: 10;
 }
 /* --- GLOBAL SCROLLBAR STYLING --- */
-
+.nav-item {
+    -webkit-user-select: none; /* Verhindert Markieren auf iOS */
+    user-select: none;
+    -webkit-touch-callout: none; /* Verhindert das Kontextmenü bei langem Drücken */
+}
 /* Breite der Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
@@ -504,7 +508,7 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
 
 <div id="storeContent">
     <div class="header-nav">
-        <div class="nav-item" onclick="toggleMobileProfile(event)">
+        <div class="nav-item">
             <div class="icon-btn">
                 <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
             </div>
@@ -696,26 +700,37 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
     }
     handleEmailActions();
 
-// Funktion für den Mobile-Klick/Touch
+// Optimierte Touch-Logik
 window.toggleMobileProfile = function(event) {
-    // Nur ausführen, wenn wir im Mobile-Bereich (<= 1000px) sind
     if (window.innerWidth <= 1000) {
+        // Stoppt das "Hover-Vorgaukeln" des Browsers
+        if (event.type === 'touchend') event.preventDefault();
+        
         const navItem = event.currentTarget;
         
-        // Wenn man ins Dropdown klickt, soll es offen bleiben
+        // Schließen verhindern, wenn man INS Dropdown klickt
         if (event.target.closest('.profile-dropdown')) return;
 
-        event.preventDefault();
+        // Klasse umschalten
         navItem.classList.toggle('mobile-active');
     }
 };
 
-// Schließen, wenn man außerhalb klickt
-document.addEventListener('click', (e) => {
+// Event-Listener für echtes Touch (reagiert sofort)
+const navItem = document.querySelector('.nav-item');
+if (navItem) {
+    // Wir hören auf touchend für schnellste Reaktion ohne Verzögerung
+    navItem.addEventListener('touchend', window.toggleMobileProfile, { passive: false });
+}
+
+// Schließen beim Klick/Touch außerhalb
+const closeHandler = (e) => {
     if (!e.target.closest('.nav-item')) {
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('mobile-active'));
     }
-});
+};
+document.addEventListener('click', closeHandler);
+document.addEventListener('touchend', closeHandler);
     // --- REGISTRIERUNG & LOGIN ---
     async function handleRegister() {
         const email = document.getElementById('regEmail').value;
