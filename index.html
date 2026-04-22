@@ -161,49 +161,67 @@ body::before {
 .auth-input { width: 100%; padding: 15px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; color: #fff; text-align: center; box-sizing: border-box; }
 .auth-step { display: none; }
 .auth-step.active { display: block; }
-/* --- PROFILE DROPDOWN LOGIC (PC & MOBILE) --- */
 
-/* Standard-Zustand: Versteckt */
+/* --- PROFILE DROPDOWN LOGIC (FIXED PADDING) --- */
+
+/* --- PROFILE DROPDOWN LOGIC (LEFT-ALIGN FIX) --- */
+
+.nav-item {
+    position: relative; 
+    pointer-events: auto;
+    display: inline-flex; /* Sorgt für kompakte Ausrichtung */
+    align-items: center;
+}
+
 .profile-dropdown { 
     position: absolute; 
-    top: 75px; 
-    left: 0; 
+    top: calc(100% + 15px); 
+    left: 0;           /* RASTET LINKS BÜNDIG AM BUTTON EIN */
+    right: auto;        /* Deaktiviert die Rechts-Ausrichtung */
     background: #0a0a0a; 
     border: 1px solid rgba(255,255,255,0.1); 
     padding: 25px; 
     border-radius: 25px; 
-    width: 220px; 
+    width: 280px; 
     text-align: left; 
     opacity: 0; 
     visibility: hidden; 
-    transition: 0.3s; 
-    z-index: 1000; 
+    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+    z-index: 1000;
+    pointer-events: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    transform: translateY(-10px);
 }
 
-/* PC: Hover-Logik (nur über 1000px Bildschirmbreite) */
+/* PC-VERHALTEN: Hover */
 @media (min-width: 1001px) {
     .nav-item:hover .profile-dropdown { 
         opacity: 1; 
         visibility: visible; 
+        transform: translateY(0);
     }
 }
 
-/* MOBIL: Klick-Logik via Klasse (unter 1000px Bildschirmbreite) */
+/* MOBILE-VERHALTEN */
 @media (max-width: 1000px) {
-    /* Wenn der Container die Klasse .mobile-active hat, wird das Dropdown gezeigt */
+    .nav-item:hover .profile-dropdown {
+        opacity: 0;
+        visibility: hidden;
+    }
+
     .nav-item.mobile-active .profile-dropdown {
         opacity: 1;
         visibility: visible;
-        display: block; /* Sicherheitshalber */
+        transform: translateY(0);
     }
 
-    /* Positionierung für Mobilgeräte optimieren */
     .profile-dropdown {
-        left: auto;
-        right: 0; /* Damit es nicht links aus dem Bild ragt */
-        top: 70px;
+        width: 260px;
+        left: 0;
+        top: calc(100% + 10px);
     }
 }
+
 footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; background: #000; position: relative; z-index: 1; }
 
 /* --- RESPONSIVE ERGÄNZUNGEN (Nur das Nötigste) --- */
@@ -677,19 +695,26 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
         }
     }
     handleEmailActions();
-    
+
+// Funktion für den Mobile-Klick/Touch
 window.toggleMobileProfile = function(event) {
+    // Nur ausführen, wenn wir im Mobile-Bereich (<= 1000px) sind
     if (window.innerWidth <= 1000) {
-        // Verhindert, dass das Menü sofort wieder schließt
-        event.stopPropagation(); 
         const navItem = event.currentTarget;
+        
+        // Wenn man ins Dropdown klickt, soll es offen bleiben
+        if (event.target.closest('.profile-dropdown')) return;
+
+        event.preventDefault();
         navItem.classList.toggle('mobile-active');
     }
 };
 
-// Schließt das Profil, wenn man irgendwo anders hinklickt
-document.addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('mobile-active'));
+// Schließen, wenn man außerhalb klickt
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-item')) {
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('mobile-active'));
+    }
 });
     // --- REGISTRIERUNG & LOGIN ---
     async function handleRegister() {
@@ -726,6 +751,27 @@ document.addEventListener('click', () => {
             errorDiv.style.display = 'block';
         }
     }
+    // Spezielle Logik für Mobile Touch
+const profileContainer = document.querySelector('.nav-item');
+
+if (profileContainer) {
+    profileContainer.addEventListener('touchstart', function(e) {
+        if (window.innerWidth <= 1000) {
+            // Wenn man auf das Dropdown selbst klickt, soll es nicht schließen
+            if (e.target.closest('.profile-dropdown')) return;
+
+            e.preventDefault(); // Verhindert simuliertes Hover
+            this.classList.toggle('mobile-active');
+        }
+    }, { passive: false });
+}
+
+// Schließen wenn man woanders hin tippt
+document.addEventListener('touchstart', (e) => {
+    if (!profileContainer.contains(e.target)) {
+        profileContainer.classList.remove('mobile-active');
+    }
+});
 
     async function handlePasswordReset() {
         const email = document.getElementById('loginEmail').value;
