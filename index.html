@@ -60,6 +60,10 @@ body::before {
     0% { background-position: 0 0; }
     100% { background-position: 1000px 1000px; }
 }
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(1.2); }
+    to { opacity: 1; transform: scale(1); }
+}
 
 /* --- VORTEILE / BENEFITS SECTION --- */
 .benefits-section {
@@ -173,6 +177,177 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
     .cart-sidebar { max-width: 100%; }
     .auth-box { padding: 30px 20px; }
 }
+
+/* Das Rank-Up Overlay */
+#rankUpOverlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    font-family: 'Bebas Neue', sans-serif;
+    color: white;
+    text-align: center;
+}
+
+.flash-white {
+    animation: flashAnim 0.5s ease-out;
+}
+
+@keyframes flashAnim {
+    0% { background: white; opacity: 0; }
+    50% { background: white; opacity: 1; }
+    100% { background: transparent; opacity: 0; }
+}
+
+.rank-text-anim {
+    font-size: 80px;
+    letter-spacing: 15px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* VOID Custom Notifications */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 11000;
+}
+
+.void-notification {
+    background: rgba(10, 10, 10, 0.95);
+    border-left: 3px solid #ff3000;
+    color: white;
+    padding: 15px 25px;
+    margin-bottom: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.void-notification.active {
+    transform: translateX(0);
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Oder die Breite deiner Inputs */
+    margin: 10px auto;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* Platz für das Icon */
+    box-sizing: border-box;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s;
+    user-select: none;
+    font-size: 18px;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+    color: #ff3000; /* Deine VOID-Farbe */
+}
+/* Container für die Felder */
+/* Container für die Felder - Hier die Länge steuern */
+.auth-input-group {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Hier von 300px auf 400px erhöht für mehr Länge */
+    margin: 0 auto 15px auto; 
+}
+
+/* Die Inputs selbst */
+.auth-input {
+    width: 100% !important;
+    height: 50px; /* Optional: Etwas höher für besseres Tippgefuehl */
+    box-sizing: border-box;
+    display: block;
+    padding: 0 15px;
+    font-family: 'Share Tech Mono', monospace;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* Das Auge bleibt perfekt positioniert */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.5;
+    z-index: 10;
+}
+
+/* Spezifisch für das Passwort-Feld mit Auge */
+.password-field {
+    padding-right: 45px !important; /* Platz für das Auge reservieren */
+}
+
+/* Das Auge absolut positionieren */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%); /* Exakt mittig vertikal */
+    cursor: pointer;
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+/* --- GLOBAL SCROLLBAR STYLING --- */
+
+/* Breite der Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+/* Hintergrund der Scrollbar (Track) */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Der bewegliche Teil (Thumb) */
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0px;
+    transition: 0.3s;
+}
+
+/* Farbe beim Drüberfahren (Hover) */
+::-webkit-scrollbar-thumb:hover {
+    background: #00f2ff; /* VOID Cyan Glow */
+    box-shadow: 0 0 10px #00f2ff;
+}
+
+/* Speziell für Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.2);
+}
 </style>
 </head>
 
@@ -190,28 +365,76 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
             <button class="checkout-btn" onclick="goToStep('stepLogin')">LOGIN</button>
             <button class="checkout-btn" style="background:transparent; color:#fff; border:1px solid #fff; margin-top:10px;" onclick="goToStep('stepRegister')">KONTO ERSTELLEN</button>
         </div>
-        <div id="stepLogin" class="auth-step">
-            <h2 style="font-family:'Bebas Neue'; font-size:40px;">LOGIN</h2>
-            <input type="email" id="loginEmail" class="auth-input" placeholder="E-MAIL">
-            <input type="password" id="loginPass" class="auth-input" placeholder="PASSWORT">
-            <div id="loginError" class="auth-error">E-MAIL ODER PASSWORT FALSCH.</div>
-            <button class="checkout-btn" onclick="handleLogin()">ANMELDEN</button>
-            <p onclick="goToStep('stepChoice')" style="cursor:pointer; opacity:0.5; margin-top:20px;">Zurück</p>
-        </div>
+
+       <div id="stepLogin" class="auth-step">
+    <h2 style="font-family:'Bebas Neue'; font-size:40px;">LOGIN</h2>
+    
+    <div class="auth-input-group">
+        <input type="email" id="loginEmail" class="auth-input" placeholder="E-MAIL">
+    </div>
+
+    <div class="auth-input-group">
+        <input type="password" id="loginPass" class="auth-input password-field" placeholder="PASSWORT">
+        <span class="toggle-password" onclick="togglePasswordVisibility('loginPass', this)">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
+        </span>
+    </div>
+
+    <div id="loginError" class="auth-error">E-MAIL ODER PASSWORT FALSCH.</div>
+    
+    <button class="checkout-btn" onclick="handleLogin()">ANMELDEN</button>
+    
+    <p onclick="handlePasswordReset()" style="cursor:pointer; opacity:0.5; font-size:12px; margin-top:15px; font-family:'Share Tech Mono';">
+        PASSWORT VERGESSEN?
+    </p>
+
+    <p onclick="goToStep('stepChoice')" style="cursor:pointer; opacity:0.5; margin-top:20px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;">
+        <span style="margin-right:5px;">&lt;</span> ZURÜCK ZUR AUSWAHL
+    </p>
+</div>
+
         <div id="stepRegister" class="auth-step">
-            <h2 style="font-family:'Bebas Neue'; font-size:40px;">CREATE ACCOUNT</h2>
-            <input type="email" id="regEmail" class="auth-input" placeholder="E-MAIL">
-            <div id="emailTakenError" class="auth-error">DIESE E-MAIL WIRD BEREITS VERWENDET.</div>
-            <input type="password" id="regPass" class="auth-input" placeholder="PASSWORT">
-            <button class="checkout-btn" onclick="handleRegister()">WEITER</button>
-            <p onclick="goToStep('stepChoice')" style="cursor:pointer; opacity:0.5; margin-top:20px;">Zurück</p>
+    <h2 style="font-family:'Bebas Neue'; font-size:40px;">CREATE ACCOUNT</h2>
+    
+    <div class="auth-input-group">
+        <input type="email" id="regEmail" class="auth-input" placeholder="E-MAIL">
+    </div>
+    
+    <div id="emailTakenError" class="auth-error">DIESE E-MAIL WIRD BEREITS VERWENDET.</div>
+
+    <div class="auth-input-group">
+        <input type="password" id="regPass" class="auth-input password-field" placeholder="PASSWORT">
+        <span class="toggle-password" onclick="togglePasswordVisibility('regPass', this)">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
+        </span>
+    </div>
+
+    <button class="checkout-btn" onclick="handleRegister()">WEITER</button>
+    
+    <p onclick="goToStep('stepChoice')" style="cursor:pointer; opacity:0.5; margin-top:20px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;">
+        <span style="margin-right:5px;">&lt;</span> ZURÜCK ZUR AUSWAHL
+    </p>
+</div>
+<div id="stepVerify" class="auth-step">
+    <div class="auth-content" style="text-align: center;">
+        <h2 style="font-family:'Bebas Neue'; font-size:40px; color:#00f2ff; letter-spacing:3px;">VERIFICATION REQUIRED</h2>
+        
+        <div style="margin: 20px 0; border: 1px solid rgba(0, 242, 255, 0.2); padding: 20px; background: rgba(0, 242, 255, 0.05);">
+            <p style="font-family:'Share Tech Mono'; font-size:14px; color:#fff; line-height:1.6; margin:0;">
+                SYSTEM-CHECK: E-MAIL BESTÄTIGUNG AUSSTEHEND.<br><br>
+                Wir haben einen Link an deine Adresse gesendet. Bitte bestätige diesen, um Zugriff auf die VOID-Terminals zu erhalten.
+            </p>
         </div>
-        <div id="stepVerify" class="auth-step">
-            <h2 style="font-family:'Bebas Neue'; font-size:30px;">VERIFIZIERUNG</h2>
-            <input type="text" id="verifyCode" class="auth-input" placeholder="0000" maxlength="4">
-            <button class="checkout-btn" onclick="handleVerify()">BESTÄTIGEN</button>
-            <p style="margin-top:10px; font-size:10px; opacity:0.3;">CODE: 1234</p>
-        </div>
+
+        <button class="checkout-btn" onclick="location.reload()" style="width: 100%; max-width: 400px;">
+            STATUS AKTUALISIEREN
+        </button>
+
+        <p onclick="logout()" style="cursor:pointer; opacity:0.5; margin-top:25px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;">
+            <span style="margin-right:5px;">&lt;</span> ABBRECHEN & AUSLOGGEN
+        </p>
+    </div>
+</div>
         <div id="stepUsername" class="auth-step">
             <h2 style="font-family:'Bebas Neue'; font-size:30px;">BENUTZERNAME</h2>
             <input type="text" id="usernameInput" class="auth-input" placeholder="BENUTZERNAME">
@@ -227,10 +450,35 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
                 <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
             </div>
             <div class="profile-dropdown">
-                <span style="font-family:'Share Tech Mono'; font-size:10px; opacity:0.3;">EINGELOGGT ALS</span>
-                <span style="font-weight:700; display:block; margin-bottom:10px;" id="userNameDisplay">USERNAME</span>
-                <div style="color:#ff3000; cursor:pointer; font-family:'Bebas Neue';" onclick="logout()">LOGOUT</div>
-            </div>
+    <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px;">
+        <span style="font-family:'Share Tech Mono'; font-size:10px; opacity:0.3; display:block; letter-spacing: 2px;">OPERATOR STATUS</span>
+        <span style="font-weight:700; font-size:20px; color: #fff; text-transform: uppercase;" id="userNameDisplay">USERNAME</span>
+    </div>
+    
+    <div style="font-family:'Share Tech Mono'; font-size:12px; margin-bottom: 20px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+            <span>RANK:</span>
+            <span id="userRank" style="color: #ff3000; font-weight: bold;">NOVICE</span>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+            <span>STATUS:</span>
+            <span id="xpText">0 / 500 XP</span>
+        </div>
+        <div style="width:100%; height:2px; background:rgba(255,255,255,0.1); margin-top:8px;">
+            <div id="xpBar" style="width:0%; height:100%; background:#ff3000; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s;"></div>
+        </div>
+    </div>
+    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 15px;">
+    <span style="font-family:'Share Tech Mono'; font-size:10px; opacity:0.3; display:block; letter-spacing: 2px; margin-bottom:10px;">RECENT TRANSACTIONS</span>
+    
+    <div id="inventoryList" style="max-height: 200px; overflow-y: auto; padding-right: 5px;">
+    </div>
+</div>
+
+    <div style="color:#ff3000; cursor:pointer; font-family:'Bebas Neue'; letter-spacing: 2px; transition: 0.3s;" onclick="logout()" onmouseover="this.style.letterSpacing='4px'" onmouseout="this.style.letterSpacing='2px'">
+        LOGOUT
+    </div>
+</div>
         </div>
         <div class="nav-item">
             <div class="icon-btn" onclick="toggleCart(true)">
@@ -250,7 +498,7 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
             <div style="display:flex; justify-content:space-between; font-family:'Bebas Neue'; font-size:24px; margin-bottom:20px;">
                 <span>TOTAL</span><span id="cartTotalValue">0,00 €</span>
             </div>
-            <button class="checkout-btn" onclick="alert('Checkout aktiv!')">CHECKOUT</button>
+            <button class="checkout-btn" onclick="handleCheckout()">CHECKOUT</button>
             <p onclick="clearCart()" style="text-align:center; font-size:11px; opacity:0.3; cursor:pointer; margin-top:15px;">Warenkorb leeren</p>
         </div>
     </div>
@@ -327,156 +575,442 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
         <button class="add-to-cart-btn" id="addToCartBtn" onclick="addToCart()">ADD TO CART — 5,90 €</button>
     </div>
 </div>
+    
+<script type="module">
+    // 1. ALLE IMPORT-ANWEISUNGEN
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+        getAuth, 
+        createUserWithEmailAndPassword, 
+        signInWithEmailAndPassword, 
+        onAuthStateChanged, 
+        signOut,
+        sendEmailVerification,
+        sendPasswordResetEmail,
+        applyActionCode 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+        getFirestore, 
+        doc, 
+        setDoc, 
+        getDoc, 
+        updateDoc, 
+        increment, 
+        arrayUnion 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-<script>
-// [Komplette Logik unverändert übernommen]
-let cart = [];
-let currentProduct = null;
-let tempEmail = "";
-let tempPass = "";
+    // 2. FIREBASE KONFIGURATION
+    const firebaseConfig = {
+        apiKey: "AIzaSyCwKEsopc2d2k-7S2LrIcrTawwVUcd2AAY",
+        authDomain: "void-performance.firebaseapp.com",
+        projectId: "void-performance",
+        storageBucket: "void-performance.firebasestorage.app",
+        messagingSenderId: "881331842230",
+        appId: "1:881331842230:web:024ee5ec414046d8704a17"
+    };
 
-window.onload = () => {
-    if(localStorage.getItem('isLoggedIn') === 'true') {
-        const user = localStorage.getItem('activeUser');
-        const userData = JSON.parse(localStorage.getItem('void_user_' + user));
-        if(userData) {
-            document.getElementById('userNameDisplay').innerText = userData.username;
+    // 3. INITIALISIERUNG
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Globale Variablen für den Shop
+    let cart = [];
+    let currentProduct = null;
+
+    // --- EMAIL ACTION HANDLER ---
+    async function handleEmailActions() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const mode = urlParams.get('mode');
+        const actionCode = urlParams.get('oobCode');
+
+        if (mode === 'verifyEmail' && actionCode) {
+            try {
+                await applyActionCode(auth, actionCode);
+                alert("ERFOLG: Deine Identität wurde im VOID-System bestätigt.");
+                window.location.href = window.location.pathname; 
+            } catch (error) {
+                console.error("Verifizierungsfehler:", error.message);
+                alert("Der Link ist abgelaufen oder ungültig.");
+            }
+        }
+    }
+    handleEmailActions();
+
+    // --- REGISTRIERUNG & LOGIN ---
+    async function handleRegister() {
+        const email = document.getElementById('regEmail').value;
+        const pass = document.getElementById('regPass').value;
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+            await sendEmailVerification(userCredential.user);
+            window.goToStep('stepVerify');
+        } catch (error) {
+            const errorDiv = document.getElementById('emailTakenError');
+            errorDiv.innerText = "FEHLER: " + error.message;
+            errorDiv.style.display = 'block';
+        }
+    }
+
+    async function handleLogin() {
+        const email = document.getElementById('loginEmail').value;
+        const pass = document.getElementById('loginPass').value;
+        const errorDiv = document.getElementById('loginError');
+        
+        if(!email || !pass) {
+            errorDiv.innerText = "INPUT ERFORDERLICH.";
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        try {
+            errorDiv.style.display = 'none';
+            await signInWithEmailAndPassword(auth, email, pass);
+        } catch (error) {
+            console.error("Login Fehler:", error.code);
+            errorDiv.innerText = "ZUGRIFF VERWEIGERT: DATEN UNGÜLTIG.";
+            errorDiv.style.display = 'block';
+        }
+    }
+
+    async function handlePasswordReset() {
+        const email = document.getElementById('loginEmail').value;
+        if (!email) {
+            alert("Bitte gib zuerst deine E-MAIL im Login-Feld ein.");
+            return;
+        }
+        try {
+            await sendPasswordResetEmail(auth, email);
+            alert("Ein Link zum Zurücksetzen deines Passworts wurde gesendet!");
+        } catch (error) {
+            alert("Fehler: " + error.message);
+        }
+    }
+
+    async function handleFinalize() {
+        const username = document.getElementById('usernameInput').value;
+        const user = auth.currentUser;
+        if (user && username) {
+            await setDoc(doc(db, "users", user.uid), {
+                username: username,
+                email: user.email,
+                xp: 0,
+                savedCart: [],
+                inventory: []
+            });
             showStore();
         }
     }
-}
 
-function saveCartToUser() {
-    const email = localStorage.getItem('activeUser');
-    if (email) {
-        const userData = JSON.parse(localStorage.getItem('void_user_' + email));
-        if (userData) {
-            userData.savedCart = cart;
-            localStorage.setItem('void_user_' + email, JSON.stringify(userData));
+    async function logout() {
+        try {
+            await signOut(auth);
+            cart = [];
+            location.reload();
+        } catch (error) { console.error("Logout Fehler:", error); }
+    }
+
+    // --- DASHBOARD UI UPDATE ---
+    // --- OPTIMIERTE CHECKOUT LOGIK ---
+async function handleCheckout() {
+    if (cart.length === 0) return;
+    const user = auth.currentUser;
+    if (!user) return;
+
+    // Namen extrahieren (z.B. "VOID ICED" oder "VOID ICED + VOID ZERO")
+    const itemNames = cart.map(item => item.name).join(" + ");
+    
+    // Die Farbe vom ersten Item im Warenkorb nehmen (für das Design im Profil)
+    // Wir setzen ein Fallback auf Cyan (#00f2ff), falls keine Farbe definiert ist
+    const themeColor = cart[0].color || "#00f2ff"; 
+
+    const xpReward = Math.floor(cart.length * 59);
+
+    try {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        const oldXp = userSnap.exists() ? (userSnap.data().xp || 0) : 0;
+        
+        await setDoc(userRef, {
+            xp: increment(xpReward),
+            savedCart: [], 
+            inventory: arrayUnion({
+                item: itemNames,
+                timestamp: new Date().toISOString(),
+                xp: xpReward,
+                color: themeColor // Hier wird die passende Farbe gespeichert!
+            })
+        }, { merge: true });
+
+        const newXp = oldXp + xpReward;
+        const checkRank = (val) => {
+            if (val >= 4000) return {n: "VOID ELITE", c: "#bc00ff"};
+            if (val >= 1500) return {n: "VANGUARD", c: "#aeff00"};
+            if (val >= 500) return {n: "SCOUT", c: "#00f2ff"};
+            return {n: "NOVICE", c: "#ff3000"};
+        };
+
+        const oldR = checkRank(oldXp);
+        const newR = checkRank(newXp);
+
+        const updatedSnap = await getDoc(userRef);
+        updateDashboardUI(updatedSnap.data());
+
+        cart = [];
+        updateCartUI();
+        window.toggleCart(false);
+
+        if (oldR.n !== newR.n) {
+            triggerRankUp(oldR.n, newR.n, newR.c);
+        } else {
+            // Die Benachrichtigung leuchtet nun in der Farbe der gekauften Dose
+            voidNotify(`TRANSAKTION ABSCHLOSSEN: +${xpReward} XP`, themeColor);
+        }
+    } catch (err) {
+        console.error("Checkout Error:", err);
+        voidNotify("CRITICAL ERROR: CONNECTION LOST", "#ff3000");
+    }
+}// --- OPTIMIERTE DASHBOARD ANZEIGE ---
+async function updateDashboardUI(userData) {
+    const xp = userData.xp || 0;
+    const RANKS = [
+        { name: "NOVICE", color: "#ff3000", threshold: 500 },
+        { name: "SCOUT", color: "#00f2ff", threshold: 1500 },
+        { name: "VANGUARD", color: "#aeff00", threshold: 4000 },
+        { name: "VOID ELITE", color: "#bc00ff", threshold: 10000}
+    ];
+
+    let currentRank = RANKS[0];
+    for (let i = 0; i < RANKS.length; i++) {
+        if (xp >= (i === 0 ? 0 : RANKS[i-1].threshold)) {
+            currentRank = RANKS[i];
+        }
+    }
+
+    const nextThreshold = currentRank.threshold;
+
+    if(document.getElementById('userNameDisplay')) 
+        document.getElementById('userNameDisplay').innerText = userData.username || "OPERATOR";
+
+    const rankEl = document.getElementById('userRank');
+    if (rankEl) {
+        rankEl.innerText = currentRank.name;
+        rankEl.style.color = currentRank.color;
+        rankEl.style.textShadow = `0 0 10px ${currentRank.color}44`;
+    }
+
+    if(document.getElementById('xpText')) 
+        document.getElementById('xpText').innerText = `${xp} / ${nextThreshold} XP`;
+
+    const xpBar = document.getElementById('xpBar');
+    if (xpBar) {
+        const progress = Math.min((xp / nextThreshold) * 100, 100);
+        xpBar.style.width = progress + "%";
+        xpBar.style.backgroundColor = currentRank.color;
+        xpBar.style.boxShadow = `0 0 10px ${currentRank.color}`;
+    }
+
+    const invList = document.getElementById('inventoryList');
+    if (invList) {
+        if (userData.inventory && userData.inventory.length > 0) {
+            invList.innerHTML = '';
+            const sortedInventory = [...userData.inventory].reverse();
+            
+            sortedInventory.forEach(entry => {
+                const date = new Date(entry.timestamp).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+                
+                // Nutze die gespeicherte Farbe des Items, sonst Standard-Blau
+                const itemColor = entry.color || "#00f2ff";
+
+                invList.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:4px;">
+                        <span style="color: ${itemColor}; font-family: 'Share Tech Mono';">
+                            <span style="opacity:0.6;">></span> ${entry.item}
+                        </span>
+                        <span style="opacity:0.5; font-size: 11px;">${date}</span>
+                    </div>`;
+            });
+        } else {
+            invList.innerHTML = '<div style="opacity:0.3; font-family: \'Share Tech Mono\';">NO ASSETS FOUND_</div>';
         }
     }
 }
 
-function goToStep(stepId) {
-    document.querySelectorAll('.auth-step').forEach(s => s.classList.remove('active'));
-    document.getElementById(stepId).classList.add('active');
-    document.getElementById('emailTakenError').style.display = 'none';
-    document.getElementById('loginError').style.display = 'none';
-}
+    function triggerRankUp(oldName, newName, newColor) {
+        const overlay = document.getElementById('rankUpOverlay');
+        const oldDisplay = document.getElementById('oldRankDisplay');
+        const newDisplay = document.getElementById('newRankDisplay');
+        const flash = document.getElementById('flashLayer');
 
-function showStore() {
-    document.getElementById('authScreen').style.display = 'none';
-    document.getElementById('storeContent').style.display = 'block';
-    document.body.classList.remove('auth-active');
-    
-    const email = localStorage.getItem('activeUser');
-    const userData = JSON.parse(localStorage.getItem('void_user_' + email));
-    if (userData && userData.savedCart) {
-        cart = userData.savedCart;
-        updateCartUI();
+        overlay.style.display = 'flex';
+        oldDisplay.innerText = oldName;
+        oldDisplay.style.display = 'block';
+        newDisplay.style.display = 'none';
+
+        setTimeout(() => {
+            flash.classList.add('flash-white');
+            setTimeout(() => {
+                oldDisplay.style.display = 'none';
+                newDisplay.innerText = newName;
+                newDisplay.style.color = newColor;
+                newDisplay.style.textShadow = `0 0 30px ${newColor}`;
+                newDisplay.style.display = 'block';
+                flash.classList.remove('flash-white');
+            }, 200);
+        }, 1500);
+
+        setTimeout(() => {
+            overlay.style.opacity = '0';
+            overlay.style.transition = '1s';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                overlay.style.opacity = '1';
+            }, 1000);
+        }, 5000);
     }
-}
 
-function handleRegister() {
-    const emailField = document.getElementById('regEmail');
-    const passField = document.getElementById('regPass');
-    tempEmail = emailField.value;
-    tempPass = passField.value;
-    if(!tempEmail.includes('@')) return alert("Email ungültig.");
-    if(localStorage.getItem('void_user_' + tempEmail)) {
-        document.getElementById('emailTakenError').style.display = 'block';
-        emailField.value = ""; passField.value = ""; return;
-    }
-    document.getElementById('emailTakenError').style.display = 'none';
-    goToStep('stepVerify');
-}
-
-function handleVerify() {
-    if(document.getElementById('verifyCode').value === "1234") goToStep('stepUsername');
-    else alert("Code: 1234");
-}
-
-function handleFinalize() {
-    const user = document.getElementById('usernameInput').value;
-    const data = { email: tempEmail, password: tempPass, username: user, savedCart: [] };
-    localStorage.setItem('void_user_' + tempEmail, JSON.stringify(data));
-    localStorage.setItem('activeUser', tempEmail);
-    localStorage.setItem('isLoggedIn', 'true');
-    document.getElementById('userNameDisplay').innerText = user;
-    showStore();
-}
-
-function handleLogin() {
-    const emailInput = document.getElementById('loginEmail');
-    const passInput = document.getElementById('loginPass');
-    const errorDisplay = document.getElementById('loginError');
-    const email = emailInput.value;
-    const pass = passInput.value;
-    const stored = JSON.parse(localStorage.getItem('void_user_' + email));
-    if(stored && stored.password === pass) {
-        errorDisplay.style.display = 'none';
-        localStorage.setItem('activeUser', email);
-        localStorage.setItem('isLoggedIn', 'true');
-        document.getElementById('userNameDisplay').innerText = stored.username;
-        showStore();
-    } else {
-        errorDisplay.style.display = 'block';
-        passInput.value = ""; 
-    }
-}
-
-function logout() { localStorage.setItem('isLoggedIn', 'false'); location.reload(); }
-
-function openModal(name, mg, desc, img, theme) {
-    currentProduct = { name, mg, img, price: 5.90 };
-    document.getElementById('modalBox').className = 'modal-content ' + theme;
-    document.getElementById('modalTitle').innerText = name;
-    document.getElementById('modalMg').innerText = mg;
-    document.getElementById('modalDesc').innerText = desc;
-    document.getElementById('modalImg').src = img;
-    document.getElementById('productModal').style.display = 'flex';
-}
-
-function closeModal() { document.getElementById('productModal').style.display = 'none'; }
-function toggleCart(open) { document.getElementById('cartSidebar').classList.toggle('active', open); }
-
-function addToCart() {
-    cart.push({...currentProduct, id: Date.now()});
-    updateCartUI();
-    const btn = document.getElementById('addToCartBtn');
-    btn.classList.add('btn-success');
-    btn.innerText = "ADDED TO CART";
-    setTimeout(() => {
-        closeModal();
-        btn.classList.remove('btn-success');
-        btn.innerText = "ADD TO CART — 5,90 €";
-    }, 600);
-}
-
-function removeItem(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-function clearCart() { cart = []; updateCartUI(); }
-
-function updateCartUI() {
-    document.getElementById('cartBadge').innerText = cart.length;
-    const list = document.getElementById('cartItemsList');
-    list.innerHTML = "";
-    let total = 0;
-    cart.forEach(item => {
-        total += item.price;
-        list.innerHTML += `
-            <div class="cart-item">
-                <img src="${item.img}">
-                <div class="cart-item-info">
-                    <span style="font-family:'Bebas Neue'; font-size:18px;">${item.name}</span>
-                    <small style="display:block; opacity:0.5;">${item.mg}</small>
-                </div>
-                <div style="font-family:'Share Tech Mono'; margin-right:15px;">5,90 €</div>
-                <div class="remove-item" onclick="removeItem(${item.id})">✕</div>
-            </div>`;
+    // --- AUTH OBSERVER ---
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            if (user.emailVerified) {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    updateDashboardUI(userDoc.data());
+                    showStore();
+                } else {
+                    window.goToStep('stepUsername');
+                }
+            } else {
+                window.goToStep('stepVerify');
+            }
+        } else {
+            document.getElementById('authScreen').style.display = 'flex';
+            document.getElementById('storeContent').style.display = 'none';
+        }
     });
-    document.getElementById('cartTotalValue').innerText = total.toFixed(2) + " €";
-    saveCartToUser();
+
+    // --- UI FUNKTIONEN ---
+    function showStore() {
+        const authEl = document.getElementById('authScreen');
+        authEl.style.opacity = "0";
+        setTimeout(() => {
+            authEl.style.display = 'none';
+            const store = document.getElementById('storeContent');
+            store.style.display = 'block';
+            requestAnimationFrame(() => { store.style.opacity = "1"; });
+            document.body.classList.remove('auth-active');
+        }, 800);
+    }
+
+    function updateCartUI() {
+        document.getElementById('cartBadge').innerText = cart.length;
+        const list = document.getElementById('cartItemsList');
+        if(!list) return;
+        list.innerHTML = "";
+        let total = 0;
+        cart.forEach(item => {
+            total += item.price;
+            list.innerHTML += `
+                <div class="cart-item">
+                    <img src="${item.img}">
+                    <div class="cart-item-info">
+                        <span style="font-family:'Bebas Neue'; font-size:18px;">${item.name}</span>
+                        <small style="display:block; opacity:0.5;">${item.mg}</small>
+                    </div>
+                    <div style="font-family:'Share Tech Mono'; margin-right:15px;">5,90 €</div>
+                    <div class="remove-item" onclick="removeItem(${item.id})">✕</div>
+                </div>`;
+        });
+        document.getElementById('cartTotalValue').innerText = total.toFixed(2).replace('.', ',') + " €";
+        saveCartToCloud();
+    }
+
+    async function saveCartToCloud() {
+        const user = auth.currentUser;
+        if (user && user.emailVerified) {
+            await updateDoc(doc(db, "users", user.uid), { savedCart: cart });
+        }
+    }
+function voidNotify(message, color = "#ff3000") {
+    const container = document.getElementById('notification-container');
+    if(!container) return;
+    
+    const note = document.createElement('div');
+    note.className = 'void-notification';
+    note.style.borderLeftColor = color;
+    
+    // Die HTML-Struktur mit den Status-Punkten
+    note.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; opacity:0.6;">
+            <span style="font-size:8px; letter-spacing:2px;">STATUS_ACTIVE</span>
+            <div style="display:flex; gap:3px;">
+                <div style="width:4px; height:4px; background:${color}; border-radius:50%;"></div>
+                <div style="width:4px; height:4px; background:${color}; border-radius:50%; opacity:0.5;"></div>
+                <div style="width:4px; height:4px; background:${color}; border-radius:50%; opacity:0.2;"></div>
+            </div>
+        </div>
+        <div style="font-family:'Share Tech Mono';">> ${message}</div>
+    `;
+    
+    container.appendChild(note);
+    setTimeout(() => note.classList.add('active'), 10);
+    
+    setTimeout(() => {
+        note.classList.remove('active');
+        setTimeout(() => note.remove(), 500);
+    }, 4000);
 }
+    // --- EXPORTE AN DAS WINDOW-OBJEKT ---
+    window.handleRegister = handleRegister;
+    window.handleLogin = handleLogin;
+    window.handleFinalize = handleFinalize;
+    window.handlePasswordReset = handlePasswordReset;
+    window.handleCheckout = handleCheckout;
+    window.logout = logout;
+    window.goToStep = (stepId) => {
+        document.querySelectorAll('.auth-step').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(stepId);
+        if(target) target.classList.add('active');
+    };
+    window.togglePasswordVisibility = function(inputId, el) {
+        const passwordInput = document.getElementById(inputId);
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            el.style.color = "#ff3000";
+            el.style.opacity = "1";
+        } else {
+            passwordInput.type = "password";
+            el.style.color = "white";
+            el.style.opacity = "0.5";
+        }
+    };
+    window.openModal = (name, mg, desc, img, theme) => {
+        currentProduct = { name, mg, img, price: 5.90 };
+        document.getElementById('modalBox').className = 'modal-content ' + theme;
+        document.getElementById('modalTitle').innerText = name;
+        document.getElementById('modalMg').innerText = mg;
+        document.getElementById('modalDesc').innerText = desc;
+        document.getElementById('modalImg').src = img;
+        document.getElementById('productModal').style.display = 'flex';
+    };
+    window.closeModal = () => document.getElementById('productModal').style.display = 'none';
+    window.toggleCart = (open) => document.getElementById('cartSidebar').classList.toggle('active', open);
+    window.addToCart = () => {
+        cart.push({...currentProduct, id: Date.now()});
+        updateCartUI();
+        window.closeModal();
+    };
+    window.removeItem = (id) => { cart = cart.filter(i => i.id !== id); updateCartUI(); };
 </script>
+
+<div id="notification-container"></div>
+
+<div id="rankUpOverlay">
+    <div id="flashLayer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
+    <p style="font-family:'Share Tech Mono'; font-size:14px; opacity:0.5; letter-spacing:5px;">PROMOTION DETECTED</p>
+    <h1 id="oldRankDisplay" class="rank-text-anim" style="opacity:0.5; filter: grayscale(1);">OLD RANK</h1>
+    <h1 id="newRankDisplay" class="rank-text-anim" style="display:none;">NEW RANK</h1>
+</div>
+
 </body>
 </html>
