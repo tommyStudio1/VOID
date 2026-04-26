@@ -1105,34 +1105,79 @@ window.cbSend = async function() {
     }
 };
 
+// 1. Die Nachricht-Bau-Funktion (Die hat gefehlt!)
 function cbAddMessage(role, text) {
     const msgs = document.getElementById('chatbot-messages');
     if (!msgs) return;
+    
     const wrapper = document.createElement('div');
     wrapper.className = 'cb-msg ' + (role === 'user' ? 'user' : 'bot');
+    
     wrapper.innerHTML = `
         <div class="cb-label">${role === 'user' ? 'DU' : 'VOID_BOT'}</div>
         <div class="cb-bubble">${text}</div>
     `;
+    
     msgs.appendChild(wrapper);
     msgs.scrollTop = msgs.scrollHeight;
 }
 
-function cbAddMessage(role, text) {
+// 2. Die Sende-Funktion
+window.cbSend = async function() {
+    const input = document.getElementById('chatbot-input');
     const msgs = document.getElementById('chatbot-messages');
-    const wrapper = document.createElement('div');
-    wrapper.className = 'cb-msg ' + (role === 'user' ? 'user' : 'bot');
-    const label = document.createElement('div');
-    label.className = 'cb-label';
-    label.textContent = role === 'user' ? 'DU' : 'VOID_BOT';
-    const bubble = document.createElement('div');
-    bubble.className = 'cb-bubble';
-    bubble.textContent = text;
-    wrapper.appendChild(label);
-    wrapper.appendChild(bubble);
-    msgs.appendChild(wrapper);
-    msgs.scrollTop = 99999;
-}
+    const text = input.value.trim();
+    
+    if (!text) return;
+
+    input.value = '';
+    document.getElementById('chatbot-send').disabled = true;
+
+    // User Nachricht anzeigen
+    cbAddMessage('user', text);
+    cbMessages.push({ role: 'user', content: text });
+
+    // Lade-Indikator
+    const typingId = "typing-" + Date.now();
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'cb-msg bot';
+    typingDiv.id = typingId;
+    typingDiv.innerHTML = `<div class="cb-label">VOID_BOT</div><div class="cb-bubble">Übermittle...</div>`;
+    msgs.appendChild(typingDiv);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    try {
+        const res = await fetch('/.netlify/functions/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                system: CB_SYSTEM,
+                message: text 
+            })
+        });
+
+        const data = await res.json();
+        
+        // Indikator weg
+        const loader = document.getElementById(typingId);
+        if (loader) loader.remove();
+
+        // Antwort anzeigen
+        const botReply = data.reply || "SYSTEM ERROR: Keine Antwort erhalten.";
+        cbAddMessage('bot', botReply);
+        cbMessages.push({ role: 'assistant', content: botReply });
+
+    } catch (e) {
+        const loader = document.getElementById(typingId);
+        if (loader) loader.remove();
+        cbAddMessage('bot', 'CONNECTION LOST. Terminal offline.');
+        console.error(e);
+    } finally {
+        document.getElementById('chatbot-send').disabled = false;
+        input.focus();
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+};
 
 document.getElementById('chatbot-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') cbSend();
