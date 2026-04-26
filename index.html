@@ -1107,6 +1107,19 @@ window.cbSend = async function() {
 
 function cbAddMessage(role, text) {
     const msgs = document.getElementById('chatbot-messages');
+    if (!msgs) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'cb-msg ' + (role === 'user' ? 'user' : 'bot');
+    wrapper.innerHTML = `
+        <div class="cb-label">${role === 'user' ? 'DU' : 'VOID_BOT'}</div>
+        <div class="cb-bubble">${text}</div>
+    `;
+    msgs.appendChild(wrapper);
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+function cbAddMessage(role, text) {
+    const msgs = document.getElementById('chatbot-messages');
     const wrapper = document.createElement('div');
     wrapper.className = 'cb-msg ' + (role === 'user' ? 'user' : 'bot');
     const label = document.createElement('div');
