@@ -1045,20 +1045,30 @@ window.cbSuggest = function(text) {
 
 window.cbSend = async function() {
     const input = document.getElementById('chatbot-input');
+    const msgs = document.getElementById('chatbot-messages');
     const text = input.value.trim();
+    
     if (!text) return;
 
+    // UI sperren
     input.value = '';
     document.getElementById('chatbot-send').disabled = true;
-    
+
+    // User Nachricht anzeigen
     cbAddMessage('user', text);
     cbMessages.push({ role: 'user', content: text });
 
-    const msgs = document.getElementById('chatbot-messages');
+    // Typing Indikator erstellen
     const typing = document.createElement('div');
     typing.className = 'cb-msg bot';
     typing.id = 'cb-typing';
-    typing.innerHTML = '<div class="cb-label">VOID_BOT</div><div class="cb-bubble">...</div>';
+    typing.innerHTML = `
+        <div class="cb-label">VOID_BOT</div>
+        <div class="cb-bubble">
+            <div class="cb-typing-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>`;
     msgs.appendChild(typing);
     msgs.scrollTop = msgs.scrollHeight;
 
@@ -1073,27 +1083,22 @@ window.cbSend = async function() {
         });
 
         const data = await res.json();
-        
-        // Wir nehmen die Antwort aus dem Feld 'reply'
-        const botAnswer = data.reply || "SYSTEM ERROR: Leere Antwort.";
+        const botAnswer = data.reply || "SYSTEM ERROR: Keine Daten empfangen.";
 
-        // 1. Entferne ZUERST die "..." Blase
-        const typingIndicator = document.getElementById('cb-typing');
-        if (typingIndicator) {
-            typingIndicator.remove();
-        }
+        // Indikator entfernen
+        const indicator = document.getElementById('cb-typing');
+        if (indicator) indicator.remove();
 
-        // 2. Füge die ECHTE Nachricht hinzu
+        // Bot Nachricht anzeigen
         cbAddMessage('bot', botAnswer);
-        
-        // 3. Speichere die Antwort im Verlauf
         cbMessages.push({ role: 'assistant', content: botAnswer });
 
     } catch (e) {
-        console.error("Fehler beim Empfangen:", e);
-        document.getElementById('cb-typing')?.remove();
-        cbAddMessage('bot', 'Verbindung zum VOID-Terminal unterbrochen.');
-    }finally {
+        console.error("Chat Fehler:", e);
+        const indicator = document.getElementById('cb-typing');
+        if (indicator) indicator.remove();
+        cbAddMessage('bot', 'CONNECTION LOST. Terminal offline.');
+    } finally {
         document.getElementById('chatbot-send').disabled = false;
         input.focus();
         msgs.scrollTop = msgs.scrollHeight;
