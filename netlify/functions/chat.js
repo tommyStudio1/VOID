@@ -7,7 +7,6 @@ exports.handler = async (event) => {
 
     try {
         const { message } = JSON.parse(event.body);
-        // Wir holen den Key aus den Netlify-Umgebungsvariablen (Sicherer!)
         const API_KEY = process.env.NVIDIA_API_KEY;
 
         const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
@@ -17,25 +16,22 @@ exports.handler = async (event) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "meta/llama-3.1-8b-instruct", // Genau das Modell aus deinem Beispiel
-                messages: [{"role": "user", "content": message}],
-                temperature: 0.2, // Wert aus deinem Beispiel
-                top_p: 0.7,       // Wert aus deinem Beispiel
-                max_tokens: 1024  // Wert aus deinem Beispiel
+                model: "meta/llama-3.1-8b-instruct",
+                messages: [{ role: "user", content: message }],
+                temperature: 0.2,
+                top_p: 0.7,
+                max_tokens: 512, // Kleinerer Wert = schnellere Antwort
+                stream: false    // WICHTIG: Explizit auf false setzen!
             })
         });
 
-        const data = await response.json();
-
-        if (data.error) {
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ reply: "NVIDIA meldet: " + data.error.message })
-            };
+        // Falls der Server gar nicht antwortet
+        if (!response.ok) {
+            const errorMsg = await response.text();
+            return { statusCode: 200, headers, body: JSON.stringify({ reply: "NVIDIA ist gerade überlastet. Code: " + response.status }) };
         }
 
-        // Antwort extrahieren
+        const data = await response.json();
         const botReply = data.choices[0].message.content;
 
         return {
@@ -48,7 +44,7 @@ exports.handler = async (event) => {
         return { 
             statusCode: 200, 
             headers, 
-            body: JSON.stringify({ reply: "Fehler: " + err.message }) 
+            body: JSON.stringify({ reply: "VOID-Verbindung instabil. Bitte noch einmal versuchen." }) 
         };
     }
 };
