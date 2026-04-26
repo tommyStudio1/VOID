@@ -1068,33 +1068,32 @@ window.cbSend = async function() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 system: CB_SYSTEM,
-                message: text
+                message: text 
             })
         });
 
         const data = await res.json();
         
-        // DEBUG: Das hier zeigt uns in der F12-Konsole, was WIRKLICH ankommt
-        console.log("Server Antwort:", data);
+        // Wir nehmen die Antwort aus dem Feld 'reply'
+        const botAnswer = data.reply || "SYSTEM ERROR: Leere Antwort.";
 
-        // Wir prüfen alle möglichen Felder, in denen der Text stecken könnte
-        const reply = data.reply || data.choices?.[0]?.message?.content || data.error;
-        
-        document.getElementById('cb-typing')?.remove();
-
-        if (reply) {
-            cbAddMessage('bot', reply);
-            cbMessages.push({ role: 'assistant', content: reply });
-        } else {
-            // Wenn wir hier landen, kam ein Paket an, aber wir verstehen den Inhalt nicht
-            cbAddMessage('bot', 'SYSTEM ERROR: Paket empfangen, aber Inhalt unlesbar. Prüfe die Konsole (F12).');
+        // 1. Entferne ZUERST die "..." Blase
+        const typingIndicator = document.getElementById('cb-typing');
+        if (typingIndicator) {
+            typingIndicator.remove();
         }
 
+        // 2. Füge die ECHTE Nachricht hinzu
+        cbAddMessage('bot', botAnswer);
+        
+        // 3. Speichere die Antwort im Verlauf
+        cbMessages.push({ role: 'assistant', content: botAnswer });
+
     } catch (e) {
-        console.error("Chat Error:", e);
+        console.error("Fehler beim Empfangen:", e);
         document.getElementById('cb-typing')?.remove();
-        cbAddMessage('bot', 'CONNECTION LOST. Das System ist offline.');
-    } finally {
+        cbAddMessage('bot', 'Verbindung zum VOID-Terminal unterbrochen.');
+    }finally {
         document.getElementById('chatbot-send').disabled = false;
         input.focus();
         msgs.scrollTop = msgs.scrollHeight;
