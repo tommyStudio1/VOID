@@ -1046,58 +1046,58 @@ window.cbSuggest = function(text) {
 window.cbSend = async function() {
     const input = document.getElementById('chatbot-input');
     const msgs = document.getElementById('chatbot-messages');
+    if (!input || !msgs) {
+        console.error("Chat-Elemente nicht gefunden!");
+        return;
+    }
+
     const text = input.value.trim();
-    
     if (!text) return;
 
-    // UI sperren
+    // UI Vorbereiten
     input.value = '';
     document.getElementById('chatbot-send').disabled = true;
 
-    // User Nachricht anzeigen
+    // 1. User Nachricht
     cbAddMessage('user', text);
-    cbMessages.push({ role: 'user', content: text });
 
-    // Typing Indikator erstellen
-    const typing = document.createElement('div');
-    typing.className = 'cb-msg bot';
-    typing.id = 'cb-typing';
-    typing.innerHTML = `
-        <div class="cb-label">VOID_BOT</div>
-        <div class="cb-bubble">
-            <div class="cb-typing-dots">
-                <span></span><span></span><span></span>
-            </div>
-        </div>`;
-    msgs.appendChild(typing);
+    // 2. Temporäre Lade-Nachricht erstellen
+    const typingId = "typing-" + Date.now();
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'cb-msg bot';
+    typingDiv.id = typingId;
+    typingDiv.innerHTML = `<div class="cb-label">VOID_BOT</div><div class="cb-bubble">Übermittle...</div>`;
+    msgs.appendChild(typingDiv);
     msgs.scrollTop = msgs.scrollHeight;
 
     try {
+        console.log("Sende an API...");
         const res = await fetch('/.netlify/functions/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                system: CB_SYSTEM,
+                system: typeof CB_SYSTEM !== 'undefined' ? CB_SYSTEM : "Du bist VOID Bot.",
                 message: text 
             })
         });
 
+        if (!res.ok) throw new Error("Server antwortet nicht korrekt (Status: " + res.status + ")");
+
         const data = await res.json();
-        const botAnswer = data.reply || "SYSTEM ERROR: Keine Daten empfangen.";
+        console.log("API Antwort erhalten:", data);
 
-        // Indikator entfernen
-        const indicator = document.getElementById('cb-typing');
-        if (indicator) indicator.remove();
+        // Lade-Nachricht entfernen
+        const loader = document.getElementById(typingId);
+        if (loader) loader.remove();
 
-        // Bot Nachricht anzeigen
-        cbAddMessage('bot', botAnswer);
-        cbMessages.push({ role: 'assistant', content: botAnswer });
+        // 3. Bot Antwort anzeigen
+        const botReply = data.reply || "Fehler: Antwortformat ungültig.";
+        cbAddMessage('bot', botReply);
 
     } catch (e) {
-        console.error("Chat Fehler:", e);
-        const indicator = document.getElementById('cb-typing');
-        if (indicator) indicator.remove();
-        cbAddMessage('bot', 'CONNECTION LOST. Terminal offline.');
+        console.error("KRITISCHER FEHLER:", e);
+        const loader = document.getElementById(typingId);
+        if (loader) loader.innerHTML = `<div class="cb-label">ERROR</div><div class="cb-bubble" style="color:red">Verbindung fehlgeschlagen: ${e.message}</div>`;
     } finally {
         document.getElementById('chatbot-send').disabled = false;
         input.focus();
