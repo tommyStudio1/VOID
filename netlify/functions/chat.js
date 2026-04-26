@@ -9,14 +9,7 @@ exports.handler = async (event) => {
         const { message } = JSON.parse(event.body);
         const API_KEY = process.env.NVIDIA_API_KEY;
 
-        if (!API_KEY || API_KEY.length < 10) {
-            return { statusCode: 200, headers, body: JSON.stringify({ reply: "KONFIGURATIONS-FEHLER: Der API-Key fehlt in Netlify!" }) };
-        }
-
-        // Wir setzen ein Timeout für den Fetch-Aufruf
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 8000); // 8 Sekunden Limit
-
+        // Wir nutzen die absolute Basis-URL von NVIDIA
         const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -24,21 +17,24 @@ exports.handler = async (event) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "meta/llama-3.1-8b-instruct",
+                model: "meta/llama-3.1-8b-instruct", // Prüfe ob dein Key für dieses Modell ist!
                 messages: [{ role: "user", content: message }],
-                max_tokens: 150 // Kurz halten für Schnelligkeit
-            }),
-            signal: controller.signal
+                temperature: 0.5,
+                top_p: 1,
+                max_tokens: 1024
+            })
         });
 
-        clearTimeout(timeout);
+        const data = await response.json();
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            return { statusCode: 200, headers, body: JSON.stringify({ reply: "NVIDIA-FEHLER: " + response.status + " - Bitte Key prüfen." }) };
+        if (data.error) {
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ reply: "NVIDIA meldet: " + data.error.message })
+            };
         }
 
-        const data = await response.json();
         return {
             statusCode: 200,
             headers,
@@ -47,9 +43,9 @@ exports.handler = async (event) => {
 
     } catch (err) {
         return { 
-            statusCode: 200, // Immer 200, damit das Frontend nicht abstürzt
+            statusCode: 200, 
             headers, 
-            body: JSON.stringify({ reply: "SYSTEM-HALT: " + err.message }) 
+            body: JSON.stringify({ reply: "TIMEOUT/FEHLER: Die KI braucht zu lange oder der Key ist inaktiv. (" + err.message + ")" }) 
         };
     }
 };
