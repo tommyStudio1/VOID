@@ -7,6 +7,7 @@ exports.handler = async (event) => {
 
     try {
         const { message } = JSON.parse(event.body);
+        // Nutze die Umgebungsvariable von Netlify für die Sicherheit!
         const API_KEY = process.env.NVIDIA_API_KEY;
 
         const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
@@ -16,28 +17,26 @@ exports.handler = async (event) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "nvidia/llama-3.1-nemotron-nano-8b-v1", // Exakter Name korrigiert
+                // Hier das Modell aus deinem Beispiel
+                model: "nvidia/nemotron-3-super-120b-a12b",
                 messages: [{ role: "user", content: message }],
-                temperature: 0.5,
-                top_p: 1,
-                max_tokens: 1024
+                temperature: 1,
+                top_p: 0.95,
+                max_tokens: 4096 // Ein sicherer Wert für Netlify
             })
         });
 
         const data = await response.json();
 
-        // Falls NVIDIA einen Fehler zurückgibt (z.B. falscher Key für dieses Modell)
         if (data.error) {
-            console.error("NVIDIA API Error:", data.error);
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({ reply: "NVIDIA meldet: " + data.error.message })
+                body: JSON.stringify({ reply: "NVIDIA-Fehler: " + data.error.message })
             };
         }
 
-        // Die Antwort der KI extrahieren
-        const botReply = data.choices?.[0]?.message?.content || "API hat keine Antwort geliefert.";
+        const botReply = data.choices[0].message.content;
 
         return {
             statusCode: 200,
@@ -46,11 +45,10 @@ exports.handler = async (event) => {
         };
 
     } catch (err) {
-        console.error("Function Error:", err);
         return { 
             statusCode: 200, 
             headers, 
-            body: JSON.stringify({ reply: "SYSTEM-HALT: " + err.message }) 
+            body: JSON.stringify({ reply: "Verbindung zu VOID unterbrochen: " + err.message }) 
         };
     }
 };
