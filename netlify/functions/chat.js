@@ -9,7 +9,6 @@ exports.handler = async (event) => {
         const { message } = JSON.parse(event.body);
         const API_KEY = process.env.NVIDIA_API_KEY;
 
-        // Wir nutzen die absolute Basis-URL von NVIDIA
         const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -17,7 +16,7 @@ exports.handler = async (event) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "meta/llama-3.1-8b-instruct", // Prüfe ob dein Key für dieses Modell ist!
+                model: "nvidia/llama-3.1-nemotron-nano-8b-v1", // Exakter Name korrigiert
                 messages: [{ role: "user", content: message }],
                 temperature: 0.5,
                 top_p: 1,
@@ -27,7 +26,9 @@ exports.handler = async (event) => {
 
         const data = await response.json();
 
+        // Falls NVIDIA einen Fehler zurückgibt (z.B. falscher Key für dieses Modell)
         if (data.error) {
+            console.error("NVIDIA API Error:", data.error);
             return {
                 statusCode: 200,
                 headers,
@@ -35,17 +36,21 @@ exports.handler = async (event) => {
             };
         }
 
+        // Die Antwort der KI extrahieren
+        const botReply = data.choices?.[0]?.message?.content || "API hat keine Antwort geliefert.";
+
         return {
             statusCode: 200,
             headers,
-            body: JSON.stringify({ reply: data.choices[0].message.content })
+            body: JSON.stringify({ reply: botReply })
         };
 
     } catch (err) {
+        console.error("Function Error:", err);
         return { 
             statusCode: 200, 
             headers, 
-            body: JSON.stringify({ reply: "TIMEOUT/FEHLER: Die KI braucht zu lange oder der Key ist inaktiv. (" + err.message + ")" }) 
+            body: JSON.stringify({ reply: "SYSTEM-HALT: " + err.message }) 
         };
     }
 };
