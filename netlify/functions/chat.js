@@ -7,7 +7,7 @@ exports.handler = async (event) => {
 
     try {
         const { message } = JSON.parse(event.body);
-        // Nutze die Umgebungsvariable von Netlify für die Sicherheit!
+        // Wir holen den Key aus den Netlify-Umgebungsvariablen (Sicherer!)
         const API_KEY = process.env.NVIDIA_API_KEY;
 
         const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
@@ -17,12 +17,11 @@ exports.handler = async (event) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                // Hier das Modell aus deinem Beispiel
-                model: "nvidia/nemotron-3-super-120b-a12b",
-                messages: [{ role: "user", content: message }],
-                temperature: 1,
-                top_p: 0.95,
-                max_tokens: 4096 // Ein sicherer Wert für Netlify
+                model: "meta/llama-3.1-8b-instruct", // Genau das Modell aus deinem Beispiel
+                messages: [{"role": "user", "content": message}],
+                temperature: 0.2, // Wert aus deinem Beispiel
+                top_p: 0.7,       // Wert aus deinem Beispiel
+                max_tokens: 1024  // Wert aus deinem Beispiel
             })
         });
 
@@ -32,10 +31,11 @@ exports.handler = async (event) => {
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({ reply: "NVIDIA-Fehler: " + data.error.message })
+                body: JSON.stringify({ reply: "NVIDIA meldet: " + data.error.message })
             };
         }
 
+        // Antwort extrahieren
         const botReply = data.choices[0].message.content;
 
         return {
@@ -48,7 +48,7 @@ exports.handler = async (event) => {
         return { 
             statusCode: 200, 
             headers, 
-            body: JSON.stringify({ reply: "Verbindung zu VOID unterbrochen: " + err.message }) 
+            body: JSON.stringify({ reply: "Fehler: " + err.message }) 
         };
     }
 };
