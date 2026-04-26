@@ -920,7 +920,7 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
         if (user) {
             if (user.emailVerified) {
                 const userDoc = await getDoc(doc(db, "users", user.uid));
-                if (userDoc.exists()) { updateDashboardUI(userDoc.data()); showStore(); }
+                if (userDoc.exists()) { showStore(); setTimeout(() => updateDashboardUI(userDoc.data()), 900); }
                 else { window.goToStep('stepUsername'); }
             } else { window.goToStep('stepVerify'); }
         } else {
