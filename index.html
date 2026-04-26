@@ -162,22 +162,18 @@ body::before {
 .auth-step { display: none; }
 .auth-step.active { display: block; }
 
-/* --- PROFILE DROPDOWN LOGIC (FIXED PADDING) --- */
-
-/* --- PROFILE DROPDOWN LOGIC (LEFT-ALIGN FIX) --- */
-
 .nav-item {
     position: relative; 
     pointer-events: auto;
-    display: inline-flex; /* Sorgt für kompakte Ausrichtung */
+    display: inline-flex;
     align-items: center;
 }
 
 .profile-dropdown { 
     position: absolute; 
     top: calc(100% + 15px); 
-    left: 0;           /* RASTET LINKS BÜNDIG AM BUTTON EIN */
-    right: auto;        /* Deaktiviert die Rechts-Ausrichtung */
+    left: 0;
+    right: auto;
     background: #0a0a0a; 
     border: 1px solid rgba(255,255,255,0.1); 
     padding: 25px; 
@@ -193,7 +189,6 @@ body::before {
     transform: translateY(-10px);
 }
 
-/* PC-VERHALTEN: Hover */
 @media (min-width: 1001px) {
     .nav-item:hover .profile-dropdown { 
         opacity: 1; 
@@ -202,29 +197,14 @@ body::before {
     }
 }
 
-/* MOBILE-VERHALTEN */
 @media (max-width: 1000px) {
-    .nav-item:hover .profile-dropdown {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    .nav-item.mobile-active .profile-dropdown {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .profile-dropdown {
-        width: 260px;
-        left: 0;
-        top: calc(100% + 10px);
-    }
+    .nav-item:hover .profile-dropdown { opacity: 0; visibility: hidden; }
+    .nav-item.mobile-active .profile-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    .profile-dropdown { width: 260px; left: 0; top: calc(100% + 10px); }
 }
 
 footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; background: #000; position: relative; z-index: 1; }
 
-/* --- RESPONSIVE ERGÄNZUNGEN (Nur das Nötigste) --- */
 @media (max-width: 1000px) { 
     .grid { flex-wrap: wrap; justify-content: center; gap: 20px; } 
     .can { min-width: 40%; max-width: 200px; } 
@@ -237,24 +217,14 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
     .auth-box { padding: 30px 20px; }
 }
 
-/* Das Rank-Up Overlay */
 #rankUpOverlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    font-family: 'Bebas Neue', sans-serif;
-    color: white;
-    text-align: center;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); display: none; flex-direction: column;
+    align-items: center; justify-content: center; z-index: 10000;
+    font-family: 'Bebas Neue', sans-serif; color: white; text-align: center;
 }
 
-.flash-white {
-    animation: flashAnim 0.5s ease-out;
-}
+.flash-white { animation: flashAnim 0.5s ease-out; }
 
 @keyframes flashAnim {
     0% { background: white; opacity: 0; }
@@ -262,154 +232,218 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
     100% { background: transparent; opacity: 0; }
 }
 
-.rank-text-anim {
-    font-size: 80px;
-    letter-spacing: 15px;
-    text-transform: uppercase;
-    margin: 0;
-}
+.rank-text-anim { font-size: 80px; letter-spacing: 15px; text-transform: uppercase; margin: 0; }
 
-/* VOID Custom Notifications */
-#notification-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 11000;
-}
+#notification-container { position: fixed; top: 20px; right: 20px; z-index: 11000; }
 
 .void-notification {
-    background: rgba(10, 10, 10, 0.95);
-    border-left: 3px solid #ff3000;
-    color: white;
-    padding: 15px 25px;
-    margin-bottom: 10px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    background: rgba(10, 10, 10, 0.95); border-left: 3px solid #ff3000;
+    color: white; padding: 15px 25px; margin-bottom: 10px;
+    font-family: 'Share Tech Mono', monospace; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 1px;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    transform: translateX(120%);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.void-notification.active { transform: translateX(0); }
+
+.password-container { position: relative; width: 100%; max-width: 300px; margin: 10px auto; }
+.password-container input { width: 100%; padding-right: 40px; box-sizing: border-box; }
+.toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; opacity: 0.5; transition: 0.3s; user-select: none; font-size: 18px; }
+.toggle-password:hover { opacity: 1; color: #ff3000; }
+
+.auth-input-group { position: relative; width: 100%; max-width: 400px; margin: 0 auto 15px auto; }
+.auth-input { width: 100% !important; height: 50px; box-sizing: border-box; display: block; padding: 0 15px; font-family: 'Share Tech Mono', monospace; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; }
+.toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; opacity: 0.5; z-index: 10; }
+.password-field { padding-right: 45px !important; }
+.toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; opacity: 0.5; display: flex; align-items: center; z-index: 10; }
+
+.nav-item { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-left: 1px solid rgba(255, 255, 255, 0.05); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 0px; transition: 0.3s; }
+::-webkit-scrollbar-thumb:hover { background: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
+* { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.2); }
+
+/* =============================================
+   VOID CHATBOT STYLES
+   ============================================= */
+
+#chatbot-fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9000;
+    display: none; /* shown after login */
 }
 
-.void-notification.active {
-    transform: translateX(0);
-}
-
-.password-container {
-    position: relative;
-    width: 100%;
-    max-width: 300px; /* Oder die Breite deiner Inputs */
-    margin: 10px auto;
-}
-
-.password-container input {
-    width: 100%;
-    padding-right: 40px; /* Platz für das Icon */
-    box-sizing: border-box;
-}
-
-.toggle-password {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
+#chatbot-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #ff3000;
+    border: none;
     cursor: pointer;
-    opacity: 0.5;
-    transition: 0.3s;
-    user-select: none;
-    font-size: 18px;
-}
-
-.toggle-password:hover {
-    opacity: 1;
-    color: #ff3000; /* Deine VOID-Farbe */
-}
-/* Container für die Felder */
-/* Container für die Felder - Hier die Länge steuern */
-.auth-input-group {
-    position: relative;
-    width: 100%;
-    max-width: 400px; /* Hier von 300px auf 400px erhöht für mehr Länge */
-    margin: 0 auto 15px auto; 
-}
-
-/* Die Inputs selbst */
-.auth-input {
-    width: 100% !important;
-    height: 50px; /* Optional: Etwas höher für besseres Tippgefuehl */
-    box-sizing: border-box;
-    display: block;
-    padding: 0 15px;
-    font-family: 'Share Tech Mono', monospace;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
-}
-
-/* Das Auge bleibt perfekt positioniert */
-.toggle-password {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    opacity: 0.5;
-    z-index: 10;
-}
-
-/* Spezifisch für das Passwort-Feld mit Auge */
-.password-field {
-    padding-right: 45px !important; /* Platz für das Auge reservieren */
-}
-
-/* Das Auge absolut positionieren */
-.toggle-password {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%); /* Exakt mittig vertikal */
-    cursor: pointer;
-    opacity: 0.5;
     display: flex;
     align-items: center;
-    z-index: 10;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(255, 48, 0, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
 }
-/* --- GLOBAL SCROLLBAR STYLING --- */
-.nav-item {
-    -webkit-user-select: none; /* Verhindert Markieren auf iOS */
-    user-select: none;
-    -webkit-touch-callout: none; /* Verhindert das Kontextmenü bei langem Drücken */
+#chatbot-toggle-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255, 48, 0, 0.6); }
+#chatbot-toggle-btn svg { width: 26px; height: 26px; fill: #fff; transition: opacity 0.2s; }
+#chatbot-toggle-btn .icon-chat { opacity: 1; position: absolute; }
+#chatbot-toggle-btn .icon-close { opacity: 0; position: absolute; }
+#chatbot-toggle-btn.open .icon-chat { opacity: 0; }
+#chatbot-toggle-btn.open .icon-close { opacity: 1; }
+
+#chatbot-notif-dot {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 12px; height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
 }
-/* Breite der Scrollbar */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+@keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.6; }
 }
 
-/* Hintergrund der Scrollbar (Track) */
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+#chatbot-window {
+    position: fixed;
+    bottom: 105px;
+    right: 30px;
+    width: 370px;
+    max-height: 560px;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    overflow: hidden;
+    z-index: 8999;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.85) translateY(20px);
+    transform-origin: bottom right;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+#chatbot-window.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
 }
 
-/* Der bewegliche Teil (Thumb) */
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 0px;
-    transition: 0.3s;
+#chatbot-header {
+    background: #0a0a0a;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
 }
+#chatbot-header .cb-logo { font-family: 'Bebas Neue'; font-size: 22px; letter-spacing: 5px; color: #fff; }
+#chatbot-header .cb-sub { font-family: 'Share Tech Mono'; font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 2px; margin-top: 1px; }
+#chatbot-header .cb-status { margin-left: auto; width: 8px; height: 8px; background: #ff3000; border-radius: 50%; box-shadow: 0 0 6px #ff3000; animation: pulse 2s infinite; }
 
-/* Farbe beim Drüberfahren (Hover) */
-::-webkit-scrollbar-thumb:hover {
-    background: #00f2ff; /* VOID Cyan Glow */
-    box-shadow: 0 0 10px #00f2ff;
-}
-
-/* Speziell für Firefox */
-* {
+#chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.1) rgba(0, 0, 0, 0.2);
+    scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+#chatbot-messages::-webkit-scrollbar { width: 3px; }
+#chatbot-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+
+.cb-msg { display: flex; flex-direction: column; max-width: 88%; }
+.cb-msg.bot { align-self: flex-start; }
+.cb-msg.user { align-self: flex-end; }
+
+.cb-label { font-family: 'Share Tech Mono'; font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.2); margin-bottom: 4px; }
+.cb-msg.user .cb-label { text-align: right; }
+
+.cb-bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+}
+.cb-msg.bot .cb-bubble {
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-bottom-left-radius: 4px;
+}
+.cb-msg.user .cb-bubble {
+    background: #1a0800;
+    border: 1px solid rgba(255,48,0,0.25);
+    border-bottom-right-radius: 4px;
+}
+
+.cb-typing {
+    display: flex; gap: 4px; padding: 12px 14px;
+    background: #0d0d0d; border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; border-bottom-left-radius: 4px;
+    align-self: flex-start; align-items: center;
+}
+.cb-dot {
+    width: 5px; height: 5px; background: #ff3000;
+    border-radius: 50%; animation: typing 1.2s infinite;
+}
+.cb-dot:nth-child(2) { animation-delay: 0.2s; }
+.cb-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+    30% { transform: translateY(-4px); opacity: 1; }
+}
+
+#chatbot-chips {
+    padding: 0 14px 10px;
+    display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0;
+}
+.cb-chip {
+    font-family: 'Share Tech Mono'; font-size: 9px; letter-spacing: 1px;
+    color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.08);
+    padding: 4px 10px; border-radius: 20px; cursor: pointer;
+    transition: all 0.2s; background: transparent; text-transform: uppercase;
+}
+.cb-chip:hover { color: #ff3000; border-color: rgba(255,48,0,0.35); }
+
+#chatbot-input-row {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 12px 14px;
+    display: flex; gap: 10px; background: #060606; flex-shrink: 0;
+}
+#chatbot-input {
+    flex: 1; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;
+    padding: 10px 14px; color: #fff;
+    font-family: 'Share Tech Mono'; font-size: 12px; outline: none;
+    transition: border-color 0.2s;
+}
+#chatbot-input:focus { border-color: rgba(255,48,0,0.35); }
+#chatbot-input::placeholder { color: rgba(255,255,255,0.18); font-size: 10px; letter-spacing: 1px; }
+
+#chatbot-send {
+    background: #ff3000; border: none; border-radius: 10px;
+    width: 40px; cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+#chatbot-send:hover { background: #cc2600; }
+#chatbot-send:disabled { background: #222; cursor: not-allowed; }
+#chatbot-send svg { width: 16px; height: 16px; fill: #fff; }
+
+@media (max-width: 600px) {
+    #chatbot-window { width: calc(100vw - 30px); right: 15px; bottom: 95px; }
+    #chatbot-fab { right: 15px; bottom: 20px; }
 }
 </style>
 </head>
@@ -429,75 +463,50 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
             <button class="checkout-btn" style="background:transparent; color:#fff; border:1px solid #fff; margin-top:10px;" onclick="goToStep('stepRegister')">KONTO ERSTELLEN</button>
         </div>
 
-       <div id="stepLogin" class="auth-step">
-    <h2 style="font-family:'Bebas Neue'; font-size:40px;">LOGIN</h2>
-    
-    <div class="auth-input-group">
-        <input type="email" id="loginEmail" class="auth-input" placeholder="E-MAIL">
-    </div>
-
-    <div class="auth-input-group">
-        <input type="password" id="loginPass" class="auth-input password-field" placeholder="PASSWORT">
-        <span class="toggle-password" onclick="togglePasswordVisibility('loginPass', this)">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
-        </span>
-    </div>
-
-    <div id="loginError" class="auth-error">E-MAIL ODER PASSWORT FALSCH.</div>
-    
-    <button class="checkout-btn" onclick="handleLogin()">ANMELDEN</button>
-    
-    <p onclick="handlePasswordReset()" style="cursor:pointer; opacity:0.5; font-size:12px; margin-top:15px; font-family:'Share Tech Mono';">
-        PASSWORT VERGESSEN?
-    </p>
-
-    <p onclick="goToStep('stepChoice')" style="cursor:pointer; opacity:0.5; margin-top:20px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;">
-        <span style="margin-right:5px;">&lt;</span> ZURÜCK ZUR AUSWAHL
-    </p>
-</div>
-
-        <div id="stepRegister" class="auth-step">
-    <h2 style="font-family:'Bebas Neue'; font-size:40px;">CREATE ACCOUNT</h2>
-    
-    <div class="auth-input-group">
-        <input type="email" id="regEmail" class="auth-input" placeholder="E-MAIL">
-    </div>
-    
-    <div id="emailTakenError" class="auth-error">DIESE E-MAIL WIRD BEREITS VERWENDET.</div>
-
-    <div class="auth-input-group">
-        <input type="password" id="regPass" class="auth-input password-field" placeholder="PASSWORT">
-        <span class="toggle-password" onclick="togglePasswordVisibility('regPass', this)">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
-        </span>
-    </div>
-
-    <button class="checkout-btn" onclick="handleRegister()">WEITER</button>
-    
-    <p onclick="goToStep('stepChoice')" style="cursor:pointer; opacity:0.5; margin-top:20px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;">
-        <span style="margin-right:5px;">&lt;</span> ZURÜCK ZUR AUSWAHL
-    </p>
-</div>
-<div id="stepVerify" class="auth-step">
-    <div class="auth-content" style="text-align: center;">
-        <h2 style="font-family:'Bebas Neue'; font-size:40px; color:#00f2ff; letter-spacing:3px;">VERIFICATION REQUIRED</h2>
-        
-        <div style="margin: 20px 0; border: 1px solid rgba(0, 242, 255, 0.2); padding: 20px; background: rgba(0, 242, 255, 0.05);">
-            <p style="font-family:'Share Tech Mono'; font-size:14px; color:#fff; line-height:1.6; margin:0;">
-                SYSTEM-CHECK: E-MAIL BESTÄTIGUNG AUSSTEHEND.<br><br>
-                Wir haben einen Link an deine Adresse gesendet. Bitte bestätige diesen, um Zugriff auf die VOID-Terminals zu erhalten.
-            </p>
+        <div id="stepLogin" class="auth-step">
+            <h2 style="font-family:'Bebas Neue'; font-size:40px;">LOGIN</h2>
+            <div class="auth-input-group">
+                <input type="email" id="loginEmail" class="auth-input" placeholder="E-MAIL">
+            </div>
+            <div class="auth-input-group">
+                <input type="password" id="loginPass" class="auth-input password-field" placeholder="PASSWORT">
+                <span class="toggle-password" onclick="togglePasswordVisibility('loginPass', this)">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
+                </span>
+            </div>
+            <div id="loginError" class="auth-error">E-MAIL ODER PASSWORT FALSCH.</div>
+            <button class="checkout-btn" onclick="handleLogin()">ANMELDEN</button>
+            <p onclick="handlePasswordReset()" style="cursor:pointer; opacity:0.5; font-size:12px; margin-top:15px; font-family:'Share Tech Mono';">PASSWORT VERGESSEN?</p>
+            <p onclick="goToStep('stepChoice')" style="cursor:pointer; opacity:0.5; margin-top:20px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;"><span style="margin-right:5px;">&lt;</span> ZURÜCK ZUR AUSWAHL</p>
         </div>
 
-        <button class="checkout-btn" onclick="location.reload()" style="width: 100%; max-width: 400px;">
-            STATUS AKTUALISIEREN
-        </button>
+        <div id="stepRegister" class="auth-step">
+            <h2 style="font-family:'Bebas Neue'; font-size:40px;">CREATE ACCOUNT</h2>
+            <div class="auth-input-group">
+                <input type="email" id="regEmail" class="auth-input" placeholder="E-MAIL">
+            </div>
+            <div id="emailTakenError" class="auth-error">DIESE E-MAIL WIRD BEREITS VERWENDET.</div>
+            <div class="auth-input-group">
+                <input type="password" id="regPass" class="auth-input password-field" placeholder="PASSWORT">
+                <span class="toggle-password" onclick="togglePasswordVisibility('regPass', this)">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg>
+                </span>
+            </div>
+            <button class="checkout-btn" onclick="handleRegister()">WEITER</button>
+            <p onclick="goToStep('stepChoice')" style="cursor:pointer; opacity:0.5; margin-top:20px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;"><span style="margin-right:5px;">&lt;</span> ZURÜCK ZUR AUSWAHL</p>
+        </div>
 
-        <p onclick="logout()" style="cursor:pointer; opacity:0.5; margin-top:25px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;">
-            <span style="margin-right:5px;">&lt;</span> ABBRECHEN & AUSLOGGEN
-        </p>
-    </div>
-</div>
+        <div id="stepVerify" class="auth-step">
+            <div class="auth-content" style="text-align: center;">
+                <h2 style="font-family:'Bebas Neue'; font-size:40px; color:#00f2ff; letter-spacing:3px;">VERIFICATION REQUIRED</h2>
+                <div style="margin: 20px 0; border: 1px solid rgba(0, 242, 255, 0.2); padding: 20px; background: rgba(0, 242, 255, 0.05);">
+                    <p style="font-family:'Share Tech Mono'; font-size:14px; color:#fff; line-height:1.6; margin:0;">SYSTEM-CHECK: E-MAIL BESTÄTIGUNG AUSSTEHEND.<br><br>Wir haben einen Link an deine Adresse gesendet. Bitte bestätige diesen, um Zugriff auf die VOID-Terminals zu erhalten.</p>
+                </div>
+                <button class="checkout-btn" onclick="location.reload()" style="width: 100%; max-width: 400px;">STATUS AKTUALISIEREN</button>
+                <p onclick="logout()" style="cursor:pointer; opacity:0.5; margin-top:25px; font-family:'Share Tech Mono'; font-size:12px; letter-spacing:1px;"><span style="margin-right:5px;">&lt;</span> ABBRECHEN & AUSLOGGEN</p>
+            </div>
+        </div>
+
         <div id="stepUsername" class="auth-step">
             <h2 style="font-family:'Bebas Neue'; font-size:30px;">BENUTZERNAME</h2>
             <input type="text" id="usernameInput" class="auth-input" placeholder="BENUTZERNAME">
@@ -513,35 +522,29 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
                 <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
             </div>
             <div class="profile-dropdown">
-    <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px;">
-        <span style="font-family:'Share Tech Mono'; font-size:10px; opacity:0.3; display:block; letter-spacing: 2px;">OPERATOR STATUS</span>
-        <span style="font-weight:700; font-size:20px; color: #fff; text-transform: uppercase;" id="userNameDisplay">USERNAME</span>
-    </div>
-    
-    <div style="font-family:'Share Tech Mono'; font-size:12px; margin-bottom: 20px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
-            <span>RANK:</span>
-            <span id="userRank" style="color: #ff3000; font-weight: bold;">NOVICE</span>
-        </div>
-        <div style="display:flex; justify-content:space-between;">
-            <span>STATUS:</span>
-            <span id="xpText">0 / 500 XP</span>
-        </div>
-        <div style="width:100%; height:2px; background:rgba(255,255,255,0.1); margin-top:8px;">
-            <div id="xpBar" style="width:0%; height:100%; background:#ff3000; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s;"></div>
-        </div>
-    </div>
-    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 15px;">
-    <span style="font-family:'Share Tech Mono'; font-size:10px; opacity:0.3; display:block; letter-spacing: 2px; margin-bottom:10px;">RECENT TRANSACTIONS</span>
-    
-    <div id="inventoryList" style="max-height: 200px; overflow-y: auto; padding-right: 5px;">
-    </div>
-</div>
-
-    <div style="color:#ff3000; cursor:pointer; font-family:'Bebas Neue'; letter-spacing: 2px; transition: 0.3s;" onclick="logout()" onmouseover="this.style.letterSpacing='4px'" onmouseout="this.style.letterSpacing='2px'">
-        LOGOUT
-    </div>
-</div>
+                <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px;">
+                    <span style="font-family:'Share Tech Mono'; font-size:10px; opacity:0.3; display:block; letter-spacing: 2px;">OPERATOR STATUS</span>
+                    <span style="font-weight:700; font-size:20px; color: #fff; text-transform: uppercase;" id="userNameDisplay">USERNAME</span>
+                </div>
+                <div style="font-family:'Share Tech Mono'; font-size:12px; margin-bottom: 20px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+                        <span>RANK:</span>
+                        <span id="userRank" style="color: #ff3000; font-weight: bold;">NOVICE</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between;">
+                        <span>STATUS:</span>
+                        <span id="xpText">0 / 500 XP</span>
+                    </div>
+                    <div style="width:100%; height:2px; background:rgba(255,255,255,0.1); margin-top:8px;">
+                        <div id="xpBar" style="width:0%; height:100%; background:#ff3000; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s;"></div>
+                    </div>
+                </div>
+                <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 15px;">
+                    <span style="font-family:'Share Tech Mono'; font-size:10px; opacity:0.3; display:block; letter-spacing: 2px; margin-bottom:10px;">RECENT TRANSACTIONS</span>
+                    <div id="inventoryList" style="max-height: 200px; overflow-y: auto; padding-right: 5px;"></div>
+                </div>
+                <div style="color:#ff3000; cursor:pointer; font-family:'Bebas Neue'; letter-spacing: 2px; transition: 0.3s;" onclick="logout()" onmouseover="this.style.letterSpacing='4px'" onmouseout="this.style.letterSpacing='2px'">LOGOUT</div>
+            </div>
         </div>
         <div class="nav-item">
             <div class="icon-btn" onclick="toggleCart(true)">
@@ -625,6 +628,7 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
             </div>
         </div>
     </section>
+
     <footer>VOID PERFORMANCE · EST. 2026</footer>
 </div>
 
@@ -638,31 +642,71 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
         <button class="add-to-cart-btn" id="addToCartBtn" onclick="addToCart()">ADD TO CART — 5,90 €</button>
     </div>
 </div>
-    
+
+<!-- =============================================
+     VOID CHATBOT
+     ============================================= -->
+<div id="chatbot-fab">
+    <button id="chatbot-toggle-btn" onclick="toggleChatbot()">
+        <!-- Chat icon -->
+        <svg class="icon-chat" viewBox="0 0 24 24"><path d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18"/></svg>
+        <!-- Close icon -->
+        <svg class="icon-close" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg>
+        <div id="chatbot-notif-dot"></div>
+    </button>
+</div>
+
+<div id="chatbot-window">
+    <div id="chatbot-header">
+        <div>
+            <div class="cb-logo">VOID</div>
+            <div class="cb-sub">SUPPORT TERMINAL · ONLINE</div>
+        </div>
+        <div class="cb-status"></div>
+    </div>
+
+    <div id="chatbot-messages">
+        <div class="cb-msg bot">
+            <div class="cb-label">VOID_BOT</div>
+            <div class="cb-bubble">Willkommen im VOID Terminal. Fragen zu Produkten, Versand oder Inhaltsstoffen? Ich bin für dich da, Operator.</div>
+        </div>
+    </div>
+
+    <div id="chatbot-chips">
+        <button class="cb-chip" onclick="cbSuggest('Welches Produkt passt zu mir?')">Welches Produkt?</button>
+        <button class="cb-chip" onclick="cbSuggest('Was kostet eine Dose?')">Preise</button>
+        <button class="cb-chip" onclick="cbSuggest('Wie läuft der Versand ab?')">Versand</button>
+        <button class="cb-chip" onclick="cbSuggest('Was sind die Inhaltsstoffe?')">Inhaltsstoffe</button>
+    </div>
+
+    <div id="chatbot-input-row">
+        <input type="text" id="chatbot-input" placeholder="NACHRICHT EINGEBEN..." maxlength="400" />
+        <button id="chatbot-send" onclick="cbSend()">
+            <svg viewBox="0 0 24 24"><path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/></svg>
+        </button>
+    </div>
+</div>
+
+<div id="notification-container"></div>
+
+<div id="rankUpOverlay">
+    <div id="flashLayer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
+    <p style="font-family:'Share Tech Mono'; font-size:14px; opacity:0.5; letter-spacing:5px;">PROMOTION DETECTED</p>
+    <h1 id="oldRankDisplay" class="rank-text-anim" style="opacity:0.5; filter: grayscale(1);">OLD RANK</h1>
+    <h1 id="newRankDisplay" class="rank-text-anim" style="display:none;">NEW RANK</h1>
+</div>
+
 <script type="module">
-    // 1. ALLE IMPORT-ANWEISUNGEN
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
-        getAuth, 
-        createUserWithEmailAndPassword, 
-        signInWithEmailAndPassword, 
-        onAuthStateChanged, 
-        signOut,
-        sendEmailVerification,
-        sendPasswordResetEmail,
-        applyActionCode 
+        getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+        onAuthStateChanged, signOut, sendEmailVerification,
+        sendPasswordResetEmail, applyActionCode 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { 
-        getFirestore, 
-        doc, 
-        setDoc, 
-        getDoc, 
-        updateDoc, 
-        increment, 
-        arrayUnion 
+        getFirestore, doc, setDoc, getDoc, updateDoc, increment, arrayUnion 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 2. FIREBASE KONFIGURATION
     const firebaseConfig = {
         apiKey: "AIzaSyCwKEsopc2d2k-7S2LrIcrTawwVUcd2AAY",
         authDomain: "void-performance.firebaseapp.com",
@@ -672,66 +716,66 @@ footer { text-align: center; padding: 60px; opacity: 0.2; font-size: 11px; backg
         appId: "1:881331842230:web:024ee5ec414046d8704a17"
     };
 
-    // 3. INITIALISIERUNG
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Globale Variablen für den Shop
     let cart = [];
     let currentProduct = null;
 
-    // --- EMAIL ACTION HANDLER ---
     async function handleEmailActions() {
         const urlParams = new URLSearchParams(window.location.search);
         const mode = urlParams.get('mode');
         const actionCode = urlParams.get('oobCode');
-
         if (mode === 'verifyEmail' && actionCode) {
             try {
                 await applyActionCode(auth, actionCode);
                 alert("ERFOLG: Deine Identität wurde im VOID-System bestätigt.");
-                window.location.href = window.location.pathname; 
+                window.location.href = window.location.pathname;
             } catch (error) {
-                console.error("Verifizierungsfehler:", error.message);
                 alert("Der Link ist abgelaufen oder ungültig.");
             }
         }
     }
     handleEmailActions();
 
-// Optimierte Touch-Logik
-window.toggleMobileProfile = function(event) {
-    if (window.innerWidth <= 1000) {
-        // Stoppt das "Hover-Vorgaukeln" des Browsers
-        if (event.type === 'touchend') event.preventDefault();
-        
-        const navItem = event.currentTarget;
-        
-        // Schließen verhindern, wenn man INS Dropdown klickt
-        if (event.target.closest('.profile-dropdown')) return;
+    window.toggleMobileProfile = function(event) {
+        if (window.innerWidth <= 1000) {
+            if (event.type === 'touchend') event.preventDefault();
+            const navItem = event.currentTarget;
+            if (event.target.closest('.profile-dropdown')) return;
+            navItem.classList.toggle('mobile-active');
+        }
+    };
 
-        // Klasse umschalten
-        navItem.classList.toggle('mobile-active');
+    const navItem = document.querySelector('.nav-item');
+    if (navItem) {
+        navItem.addEventListener('touchend', window.toggleMobileProfile, { passive: false });
     }
-};
+    const closeHandler = (e) => {
+        if (!e.target.closest('.nav-item')) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('mobile-active'));
+        }
+    };
+    document.addEventListener('click', closeHandler);
+    document.addEventListener('touchend', closeHandler);
 
-// Event-Listener für echtes Touch (reagiert sofort)
-const navItem = document.querySelector('.nav-item');
-if (navItem) {
-    // Wir hören auf touchend für schnellste Reaktion ohne Verzögerung
-    navItem.addEventListener('touchend', window.toggleMobileProfile, { passive: false });
-}
-
-// Schließen beim Klick/Touch außerhalb
-const closeHandler = (e) => {
-    if (!e.target.closest('.nav-item')) {
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('mobile-active'));
+    const profileContainer = document.querySelector('.nav-item');
+    if (profileContainer) {
+        profileContainer.addEventListener('touchstart', function(e) {
+            if (window.innerWidth <= 1000) {
+                if (e.target.closest('.profile-dropdown')) return;
+                e.preventDefault();
+                this.classList.toggle('mobile-active');
+            }
+        }, { passive: false });
     }
-};
-document.addEventListener('click', closeHandler);
-document.addEventListener('touchend', closeHandler);
-    // --- REGISTRIERUNG & LOGIN ---
+    document.addEventListener('touchstart', (e) => {
+        if (profileContainer && !profileContainer.contains(e.target)) {
+            profileContainer.classList.remove('mobile-active');
+        }
+    });
+
     async function handleRegister() {
         const email = document.getElementById('regEmail').value;
         const pass = document.getElementById('regPass').value;
@@ -750,56 +794,23 @@ document.addEventListener('touchend', closeHandler);
         const email = document.getElementById('loginEmail').value;
         const pass = document.getElementById('loginPass').value;
         const errorDiv = document.getElementById('loginError');
-        
-        if(!email || !pass) {
-            errorDiv.innerText = "INPUT ERFORDERLICH.";
-            errorDiv.style.display = 'block';
-            return;
-        }
-
+        if (!email || !pass) { errorDiv.innerText = "INPUT ERFORDERLICH."; errorDiv.style.display = 'block'; return; }
         try {
             errorDiv.style.display = 'none';
             await signInWithEmailAndPassword(auth, email, pass);
         } catch (error) {
-            console.error("Login Fehler:", error.code);
             errorDiv.innerText = "ZUGRIFF VERWEIGERT: DATEN UNGÜLTIG.";
             errorDiv.style.display = 'block';
         }
     }
-    // Spezielle Logik für Mobile Touch
-const profileContainer = document.querySelector('.nav-item');
-
-if (profileContainer) {
-    profileContainer.addEventListener('touchstart', function(e) {
-        if (window.innerWidth <= 1000) {
-            // Wenn man auf das Dropdown selbst klickt, soll es nicht schließen
-            if (e.target.closest('.profile-dropdown')) return;
-
-            e.preventDefault(); // Verhindert simuliertes Hover
-            this.classList.toggle('mobile-active');
-        }
-    }, { passive: false });
-}
-
-// Schließen wenn man woanders hin tippt
-document.addEventListener('touchstart', (e) => {
-    if (!profileContainer.contains(e.target)) {
-        profileContainer.classList.remove('mobile-active');
-    }
-});
 
     async function handlePasswordReset() {
         const email = document.getElementById('loginEmail').value;
-        if (!email) {
-            alert("Bitte gib zuerst deine E-MAIL im Login-Feld ein.");
-            return;
-        }
+        if (!email) { alert("Bitte gib zuerst deine E-MAIL im Login-Feld ein."); return; }
         try {
             await sendPasswordResetEmail(auth, email);
             alert("Ein Link zum Zurücksetzen deines Passworts wurde gesendet!");
-        } catch (error) {
-            alert("Fehler: " + error.message);
-        }
+        } catch (error) { alert("Fehler: " + error.message); }
     }
 
     async function handleFinalize() {
@@ -807,204 +818,117 @@ document.addEventListener('touchstart', (e) => {
         const user = auth.currentUser;
         if (user && username) {
             await setDoc(doc(db, "users", user.uid), {
-                username: username,
-                email: user.email,
-                xp: 0,
-                savedCart: [],
-                inventory: []
+                username: username, email: user.email, xp: 0, savedCart: [], inventory: []
             });
             showStore();
         }
     }
 
     async function logout() {
+        try { await signOut(auth); cart = []; location.reload(); } catch (error) { console.error("Logout Fehler:", error); }
+    }
+
+    async function handleCheckout() {
+        if (cart.length === 0) return;
+        const user = auth.currentUser;
+        if (!user) return;
+        const itemNames = cart.map(item => item.name).join(" + ");
+        const themeColor = cart[0].color || "#00f2ff";
+        const xpReward = Math.floor(cart.length * 59);
         try {
-            await signOut(auth);
-            cart = [];
-            location.reload();
-        } catch (error) { console.error("Logout Fehler:", error); }
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+            const oldXp = userSnap.exists() ? (userSnap.data().xp || 0) : 0;
+            await setDoc(userRef, {
+                xp: increment(xpReward), savedCart: [],
+                inventory: arrayUnion({ item: itemNames, timestamp: new Date().toISOString(), xp: xpReward, color: themeColor })
+            }, { merge: true });
+            const newXp = oldXp + xpReward;
+            const checkRank = (val) => {
+                if (val >= 4000) return { n: "VOID ELITE", c: "#bc00ff" };
+                if (val >= 1500) return { n: "VANGUARD", c: "#aeff00" };
+                if (val >= 500) return { n: "SCOUT", c: "#00f2ff" };
+                return { n: "NOVICE", c: "#ff3000" };
+            };
+            const oldR = checkRank(oldXp);
+            const newR = checkRank(newXp);
+            const updatedSnap = await getDoc(userRef);
+            updateDashboardUI(updatedSnap.data());
+            cart = []; updateCartUI(); window.toggleCart(false);
+            if (oldR.n !== newR.n) { triggerRankUp(oldR.n, newR.n, newR.c); }
+            else { voidNotify(`TRANSAKTION ABSCHLOSSEN: +${xpReward} XP`, themeColor); }
+        } catch (err) { voidNotify("CRITICAL ERROR: CONNECTION LOST", "#ff3000"); }
     }
 
-    // --- DASHBOARD UI UPDATE ---
-    // --- OPTIMIERTE CHECKOUT LOGIK ---
-async function handleCheckout() {
-    if (cart.length === 0) return;
-    const user = auth.currentUser;
-    if (!user) return;
-
-    // Namen extrahieren (z.B. "VOID ICED" oder "VOID ICED + VOID ZERO")
-    const itemNames = cart.map(item => item.name).join(" + ");
-    
-    // Die Farbe vom ersten Item im Warenkorb nehmen (für das Design im Profil)
-    // Wir setzen ein Fallback auf Cyan (#00f2ff), falls keine Farbe definiert ist
-    const themeColor = cart[0].color || "#00f2ff"; 
-
-    const xpReward = Math.floor(cart.length * 59);
-
-    try {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-        const oldXp = userSnap.exists() ? (userSnap.data().xp || 0) : 0;
-        
-        await setDoc(userRef, {
-            xp: increment(xpReward),
-            savedCart: [], 
-            inventory: arrayUnion({
-                item: itemNames,
-                timestamp: new Date().toISOString(),
-                xp: xpReward,
-                color: themeColor // Hier wird die passende Farbe gespeichert!
-            })
-        }, { merge: true });
-
-        const newXp = oldXp + xpReward;
-        const checkRank = (val) => {
-            if (val >= 4000) return {n: "VOID ELITE", c: "#bc00ff"};
-            if (val >= 1500) return {n: "VANGUARD", c: "#aeff00"};
-            if (val >= 500) return {n: "SCOUT", c: "#00f2ff"};
-            return {n: "NOVICE", c: "#ff3000"};
-        };
-
-        const oldR = checkRank(oldXp);
-        const newR = checkRank(newXp);
-
-        const updatedSnap = await getDoc(userRef);
-        updateDashboardUI(updatedSnap.data());
-
-        cart = [];
-        updateCartUI();
-        window.toggleCart(false);
-
-        if (oldR.n !== newR.n) {
-            triggerRankUp(oldR.n, newR.n, newR.c);
-        } else {
-            // Die Benachrichtigung leuchtet nun in der Farbe der gekauften Dose
-            voidNotify(`TRANSAKTION ABSCHLOSSEN: +${xpReward} XP`, themeColor);
+    async function updateDashboardUI(userData) {
+        const xp = userData.xp || 0;
+        const RANKS = [
+            { name: "NOVICE", color: "#ff3000", threshold: 500 },
+            { name: "SCOUT", color: "#00f2ff", threshold: 1500 },
+            { name: "VANGUARD", color: "#aeff00", threshold: 4000 },
+            { name: "VOID ELITE", color: "#bc00ff", threshold: 10000 }
+        ];
+        let currentRank = RANKS[0];
+        for (let i = 0; i < RANKS.length; i++) {
+            if (xp >= (i === 0 ? 0 : RANKS[i - 1].threshold)) currentRank = RANKS[i];
         }
-    } catch (err) {
-        console.error("Checkout Error:", err);
-        voidNotify("CRITICAL ERROR: CONNECTION LOST", "#ff3000");
-    }
-}// --- OPTIMIERTE DASHBOARD ANZEIGE ---
-async function updateDashboardUI(userData) {
-    const xp = userData.xp || 0;
-    const RANKS = [
-        { name: "NOVICE", color: "#ff3000", threshold: 500 },
-        { name: "SCOUT", color: "#00f2ff", threshold: 1500 },
-        { name: "VANGUARD", color: "#aeff00", threshold: 4000 },
-        { name: "VOID ELITE", color: "#bc00ff", threshold: 10000}
-    ];
-
-    let currentRank = RANKS[0];
-    for (let i = 0; i < RANKS.length; i++) {
-        if (xp >= (i === 0 ? 0 : RANKS[i-1].threshold)) {
-            currentRank = RANKS[i];
+        const nextThreshold = currentRank.threshold;
+        if (document.getElementById('userNameDisplay')) document.getElementById('userNameDisplay').innerText = userData.username || "OPERATOR";
+        const rankEl = document.getElementById('userRank');
+        if (rankEl) { rankEl.innerText = currentRank.name; rankEl.style.color = currentRank.color; rankEl.style.textShadow = `0 0 10px ${currentRank.color}44`; }
+        if (document.getElementById('xpText')) document.getElementById('xpText').innerText = `${xp} / ${nextThreshold} XP`;
+        const xpBar = document.getElementById('xpBar');
+        if (xpBar) { const progress = Math.min((xp / nextThreshold) * 100, 100); xpBar.style.width = progress + "%"; xpBar.style.backgroundColor = currentRank.color; xpBar.style.boxShadow = `0 0 10px ${currentRank.color}`; }
+        const invList = document.getElementById('inventoryList');
+        if (invList) {
+            if (userData.inventory && userData.inventory.length > 0) {
+                invList.innerHTML = '';
+                const sortedInventory = [...userData.inventory].reverse();
+                sortedInventory.forEach(entry => {
+                    const date = new Date(entry.timestamp).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+                    const itemColor = entry.color || "#00f2ff";
+                    invList.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:4px;"><span style="color: ${itemColor}; font-family: 'Share Tech Mono';"><span style="opacity:0.6;">></span> ${entry.item}</span><span style="opacity:0.5; font-size: 11px;">${date}</span></div>`;
+                });
+            } else {
+                invList.innerHTML = '<div style="opacity:0.3; font-family: \'Share Tech Mono\';">NO ASSETS FOUND_</div>';
+            }
         }
     }
-
-    const nextThreshold = currentRank.threshold;
-
-    if(document.getElementById('userNameDisplay')) 
-        document.getElementById('userNameDisplay').innerText = userData.username || "OPERATOR";
-
-    const rankEl = document.getElementById('userRank');
-    if (rankEl) {
-        rankEl.innerText = currentRank.name;
-        rankEl.style.color = currentRank.color;
-        rankEl.style.textShadow = `0 0 10px ${currentRank.color}44`;
-    }
-
-    if(document.getElementById('xpText')) 
-        document.getElementById('xpText').innerText = `${xp} / ${nextThreshold} XP`;
-
-    const xpBar = document.getElementById('xpBar');
-    if (xpBar) {
-        const progress = Math.min((xp / nextThreshold) * 100, 100);
-        xpBar.style.width = progress + "%";
-        xpBar.style.backgroundColor = currentRank.color;
-        xpBar.style.boxShadow = `0 0 10px ${currentRank.color}`;
-    }
-
-    const invList = document.getElementById('inventoryList');
-    if (invList) {
-        if (userData.inventory && userData.inventory.length > 0) {
-            invList.innerHTML = '';
-            const sortedInventory = [...userData.inventory].reverse();
-            
-            sortedInventory.forEach(entry => {
-                const date = new Date(entry.timestamp).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
-                
-                // Nutze die gespeicherte Farbe des Items, sonst Standard-Blau
-                const itemColor = entry.color || "#00f2ff";
-
-                invList.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:4px;">
-                        <span style="color: ${itemColor}; font-family: 'Share Tech Mono';">
-                            <span style="opacity:0.6;">></span> ${entry.item}
-                        </span>
-                        <span style="opacity:0.5; font-size: 11px;">${date}</span>
-                    </div>`;
-            });
-        } else {
-            invList.innerHTML = '<div style="opacity:0.3; font-family: \'Share Tech Mono\';">NO ASSETS FOUND_</div>';
-        }
-    }
-}
 
     function triggerRankUp(oldName, newName, newColor) {
         const overlay = document.getElementById('rankUpOverlay');
         const oldDisplay = document.getElementById('oldRankDisplay');
         const newDisplay = document.getElementById('newRankDisplay');
         const flash = document.getElementById('flashLayer');
-
         overlay.style.display = 'flex';
-        oldDisplay.innerText = oldName;
-        oldDisplay.style.display = 'block';
-        newDisplay.style.display = 'none';
-
+        oldDisplay.innerText = oldName; oldDisplay.style.display = 'block'; newDisplay.style.display = 'none';
         setTimeout(() => {
             flash.classList.add('flash-white');
             setTimeout(() => {
-                oldDisplay.style.display = 'none';
-                newDisplay.innerText = newName;
-                newDisplay.style.color = newColor;
-                newDisplay.style.textShadow = `0 0 30px ${newColor}`;
-                newDisplay.style.display = 'block';
-                flash.classList.remove('flash-white');
+                oldDisplay.style.display = 'none'; newDisplay.innerText = newName;
+                newDisplay.style.color = newColor; newDisplay.style.textShadow = `0 0 30px ${newColor}`;
+                newDisplay.style.display = 'block'; flash.classList.remove('flash-white');
             }, 200);
         }, 1500);
-
         setTimeout(() => {
-            overlay.style.opacity = '0';
-            overlay.style.transition = '1s';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                overlay.style.opacity = '1';
-            }, 1000);
+            overlay.style.opacity = '0'; overlay.style.transition = '1s';
+            setTimeout(() => { overlay.style.display = 'none'; overlay.style.opacity = '1'; }, 1000);
         }, 5000);
     }
 
-    // --- AUTH OBSERVER ---
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             if (user.emailVerified) {
                 const userDoc = await getDoc(doc(db, "users", user.uid));
-                if (userDoc.exists()) {
-                    updateDashboardUI(userDoc.data());
-                    showStore();
-                } else {
-                    window.goToStep('stepUsername');
-                }
-            } else {
-                window.goToStep('stepVerify');
-            }
+                if (userDoc.exists()) { updateDashboardUI(userDoc.data()); showStore(); }
+                else { window.goToStep('stepUsername'); }
+            } else { window.goToStep('stepVerify'); }
         } else {
             document.getElementById('authScreen').style.display = 'flex';
             document.getElementById('storeContent').style.display = 'none';
         }
     });
 
-    // --- UI FUNKTIONEN ---
     function showStore() {
         const authEl = document.getElementById('authScreen');
         authEl.style.opacity = "0";
@@ -1014,27 +938,19 @@ async function updateDashboardUI(userData) {
             store.style.display = 'block';
             requestAnimationFrame(() => { store.style.opacity = "1"; });
             document.body.classList.remove('auth-active');
+            // Chatbot FAB einblenden
+            document.getElementById('chatbot-fab').style.display = 'block';
         }, 800);
     }
 
     function updateCartUI() {
         document.getElementById('cartBadge').innerText = cart.length;
         const list = document.getElementById('cartItemsList');
-        if(!list) return;
-        list.innerHTML = "";
-        let total = 0;
+        if (!list) return;
+        list.innerHTML = ""; let total = 0;
         cart.forEach(item => {
             total += item.price;
-            list.innerHTML += `
-                <div class="cart-item">
-                    <img src="${item.img}">
-                    <div class="cart-item-info">
-                        <span style="font-family:'Bebas Neue'; font-size:18px;">${item.name}</span>
-                        <small style="display:block; opacity:0.5;">${item.mg}</small>
-                    </div>
-                    <div style="font-family:'Share Tech Mono'; margin-right:15px;">5,90 €</div>
-                    <div class="remove-item" onclick="removeItem(${item.id})">✕</div>
-                </div>`;
+            list.innerHTML += `<div class="cart-item"><img src="${item.img}"><div class="cart-item-info"><span style="font-family:'Bebas Neue'; font-size:18px;">${item.name}</span><small style="display:block; opacity:0.5;">${item.mg}</small></div><div style="font-family:'Share Tech Mono'; margin-right:15px;">5,90 €</div><div class="remove-item" onclick="removeItem(${item.id})">✕</div></div>`;
         });
         document.getElementById('cartTotalValue').innerText = total.toFixed(2).replace('.', ',') + " €";
         saveCartToCloud();
@@ -1042,40 +958,22 @@ async function updateDashboardUI(userData) {
 
     async function saveCartToCloud() {
         const user = auth.currentUser;
-        if (user && user.emailVerified) {
-            await updateDoc(doc(db, "users", user.uid), { savedCart: cart });
-        }
+        if (user && user.emailVerified) { await updateDoc(doc(db, "users", user.uid), { savedCart: cart }); }
     }
-function voidNotify(message, color = "#ff3000") {
-    const container = document.getElementById('notification-container');
-    if(!container) return;
-    
-    const note = document.createElement('div');
-    note.className = 'void-notification';
-    note.style.borderLeftColor = color;
-    
-    // Die HTML-Struktur mit den Status-Punkten
-    note.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; opacity:0.6;">
-            <span style="font-size:8px; letter-spacing:2px;">STATUS_ACTIVE</span>
-            <div style="display:flex; gap:3px;">
-                <div style="width:4px; height:4px; background:${color}; border-radius:50%;"></div>
-                <div style="width:4px; height:4px; background:${color}; border-radius:50%; opacity:0.5;"></div>
-                <div style="width:4px; height:4px; background:${color}; border-radius:50%; opacity:0.2;"></div>
-            </div>
-        </div>
-        <div style="font-family:'Share Tech Mono';">> ${message}</div>
-    `;
-    
-    container.appendChild(note);
-    setTimeout(() => note.classList.add('active'), 10);
-    
-    setTimeout(() => {
-        note.classList.remove('active');
-        setTimeout(() => note.remove(), 500);
-    }, 4000);
-}
-    // --- EXPORTE AN DAS WINDOW-OBJEKT ---
+
+    function voidNotify(message, color = "#ff3000") {
+        const container = document.getElementById('notification-container');
+        if (!container) return;
+        const note = document.createElement('div');
+        note.className = 'void-notification';
+        note.style.borderLeftColor = color;
+        note.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; opacity:0.6;"><span style="font-size:8px; letter-spacing:2px;">STATUS_ACTIVE</span><div style="display:flex; gap:3px;"><div style="width:4px; height:4px; background:${color}; border-radius:50%;"></div><div style="width:4px; height:4px; background:${color}; border-radius:50%; opacity:0.5;"></div><div style="width:4px; height:4px; background:${color}; border-radius:50%; opacity:0.2;"></div></div></div><div style="font-family:'Share Tech Mono';">> ${message}</div>`;
+        container.appendChild(note);
+        setTimeout(() => note.classList.add('active'), 10);
+        setTimeout(() => { note.classList.remove('active'); setTimeout(() => note.remove(), 500); }, 4000);
+    }
+
+    // --- WINDOW EXPORTS ---
     window.handleRegister = handleRegister;
     window.handleLogin = handleLogin;
     window.handleFinalize = handleFinalize;
@@ -1085,19 +983,12 @@ function voidNotify(message, color = "#ff3000") {
     window.goToStep = (stepId) => {
         document.querySelectorAll('.auth-step').forEach(s => s.classList.remove('active'));
         const target = document.getElementById(stepId);
-        if(target) target.classList.add('active');
+        if (target) target.classList.add('active');
     };
     window.togglePasswordVisibility = function(inputId, el) {
         const passwordInput = document.getElementById(inputId);
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            el.style.color = "#ff3000";
-            el.style.opacity = "1";
-        } else {
-            passwordInput.type = "password";
-            el.style.color = "white";
-            el.style.opacity = "0.5";
-        }
+        if (passwordInput.type === "password") { passwordInput.type = "text"; el.style.color = "#ff3000"; el.style.opacity = "1"; }
+        else { passwordInput.type = "password"; el.style.color = "white"; el.style.opacity = "0.5"; }
     };
     window.openModal = (name, mg, desc, img, theme) => {
         currentProduct = { name, mg, img, price: 5.90 };
@@ -1110,22 +1001,114 @@ function voidNotify(message, color = "#ff3000") {
     };
     window.closeModal = () => document.getElementById('productModal').style.display = 'none';
     window.toggleCart = (open) => document.getElementById('cartSidebar').classList.toggle('active', open);
-    window.addToCart = () => {
-        cart.push({...currentProduct, id: Date.now()});
-        updateCartUI();
-        window.closeModal();
-    };
+    window.addToCart = () => { cart.push({ ...currentProduct, id: Date.now() }); updateCartUI(); window.closeModal(); };
     window.removeItem = (id) => { cart = cart.filter(i => i.id !== id); updateCartUI(); };
 </script>
 
-<div id="notification-container"></div>
+<!-- VOID CHATBOT LOGIC (separates Script, kein Modul nötig) -->
+<script>
+const CB_SYSTEM = `Du bist der offizielle VOID Support-Bot für die deutsche Snus-/Nicotine-Pouch-Marke "VOID Performance".
 
-<div id="rankUpOverlay">
-    <div id="flashLayer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
-    <p style="font-family:'Share Tech Mono'; font-size:14px; opacity:0.5; letter-spacing:5px;">PROMOTION DETECTED</p>
-    <h1 id="oldRankDisplay" class="rank-text-anim" style="opacity:0.5; filter: grayscale(1);">OLD RANK</h1>
-    <h1 id="newRankDisplay" class="rank-text-anim" style="display:none;">NEW RANK</h1>
-</div>
+Antworte immer präzise, locker und auf Deutsch. Halte Antworten kurz und klar – max. 3-4 Sätze. Nutze gelegentlich Begriffe wie "Operator", "Terminal" oder "System" für den VOID-Vibe.
+
+PRODUKTE (DROP #01 – Arctic Menthol):
+- GYM (06 MG): Hyper-Fokus für dein Workout. Leichte Stärke, ideal für Einsteiger. Preis: 5,90 €
+- STRIKE (12 MG): Energie für High-Stakes. Mittlere Stärke. Preis: 5,90 €
+- VOID (20 MG): Signature Flow-State. Starke Variante. Preis: 5,90 €
+- ABYSS (50 MG): Jenseits aller Limits. Extremste Variante, nur für sehr Erfahrene. Preis: 5,90 €
+
+PREISE: Alle Produkte 5,90 € pro Dose.
+
+INHALTSSTOFFE: 100% tabakfrei. Enthält synthetisches Nikotin, Zellulosefasern, Arctic-Menthol-Aromen, Feuchthaltemittel, pH-Regulatoren.
+
+VERSAND: Website befindet sich im Pre-Launch. Versanddetails folgen beim offiziellen Launch – Website im Blick behalten.
+
+UNTERNEHMEN: VOID gegründet 2026 für High-Performer – Gym, Gaming, Business. Motto: "Fülle die Leere."
+
+GESUNDHEIT: Nikotin ist suchtbildend. Nicht für Schwangere, Jugendliche oder Nichtraucher. Bei gesundheitlichen Fragen Arzt konsultieren.
+
+Falls du etwas nicht weißt: "Das kann ich noch nicht beantworten – schreib uns direkt."`;
+
+let cbMessages = [];
+let cbOpen = false;
+
+window.toggleChatbot = function() {
+    cbOpen = !cbOpen;
+    const win = document.getElementById('chatbot-window');
+    const btn = document.getElementById('chatbot-toggle-btn');
+    const dot = document.getElementById('chatbot-notif-dot');
+    win.classList.toggle('open', cbOpen);
+    btn.classList.toggle('open', cbOpen);
+    if (cbOpen) { dot.style.display = 'none'; document.getElementById('chatbot-input').focus(); }
+};
+
+window.cbSuggest = function(text) {
+    document.getElementById('chatbot-input').value = text;
+    cbSend();
+};
+
+window.cbSend = async function() {
+    const input = document.getElementById('chatbot-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    document.getElementById('chatbot-send').disabled = true;
+    document.getElementById('chatbot-chips').style.display = 'none';
+
+    cbAddMessage('user', text);
+    cbMessages.push({ role: 'user', content: text });
+
+    // Typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'cb-typing';
+    typing.id = 'cb-typing';
+    typing.innerHTML = '<div class="cb-dot"></div><div class="cb-dot"></div><div class="cb-dot"></div>';
+    document.getElementById('chatbot-messages').appendChild(typing);
+    document.getElementById('chatbot-messages').scrollTop = 99999;
+
+    try {
+        const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                system: CB_SYSTEM,
+                messages: cbMessages
+            })
+        });
+        const data = await res.json();
+        const reply = data.content?.[0]?.text || 'SYSTEM ERROR: Keine Antwort.';
+        cbMessages.push({ role: 'assistant', content: reply });
+        document.getElementById('cb-typing')?.remove();
+        cbAddMessage('bot', reply);
+    } catch (e) {
+        document.getElementById('cb-typing')?.remove();
+        cbAddMessage('bot', 'CONNECTION LOST. Bitte versuche es erneut.');
+    }
+
+    document.getElementById('chatbot-send').disabled = false;
+    input.focus();
+};
+
+function cbAddMessage(role, text) {
+    const msgs = document.getElementById('chatbot-messages');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'cb-msg ' + (role === 'user' ? 'user' : 'bot');
+    const label = document.createElement('div');
+    label.className = 'cb-label';
+    label.textContent = role === 'user' ? 'DU' : 'VOID_BOT';
+    const bubble = document.createElement('div');
+    bubble.className = 'cb-bubble';
+    bubble.textContent = text;
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    msgs.appendChild(wrapper);
+    msgs.scrollTop = 99999;
+}
+
+document.getElementById('chatbot-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') cbSend();
+});
+</script>
 
 </body>
 </html>
